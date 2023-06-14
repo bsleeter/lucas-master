@@ -1,0 +1,30 @@
+Iteration,Timestep,StratumID,SecondaryStratumID,TertiaryStratumID,StateClassID,AgeMin,AgeMax,FlowGroupID,FlowMultiplierTypeID,Value,DistributionType,DistributionFrequencyID,DistributionSD,DistributionMin,DistributionMax
+,,,,,Forest: Alder/Maple Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7788,1.2212
+,,,,,Forest: Aspen/Birch Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.8191,1.1809
+,,,,,Forest: California Mixed Conifer Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6420,1.3580
+,,,,,Forest: Douglas-fir Coastal Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.9817,1.0183
+,,,,,Forest: Douglas-fir Inland Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.5339,1.4661
+,,,,,Forest: Elm/Ash/Cottonwood Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6126,1.3874
+,,,,,Forest: Exotic Hardwoods Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.5390,1.4610
+,,,,,Forest: Exotic Softwoods Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.8685,1.1315
+,,,,,Forest: Fir/Spruce/Mountain Hemlock Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7516,1.2484
+,,,,,Forest: Hemlock/Sitka Spruce Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7709,1.2291
+,,,,,Forest: Loblolly/Shortleaf Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.8110,1.1890
+,,,,,Forest: Lodgepole Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6759,1.3241
+,,,,,Forest: Longleaf/Slash Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6820,1.3180
+,,,,,Forest: Maple/Beech/Birch Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.8005,1.1995
+,,,,,Forest: Oak/Gum/Cypress Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7296,1.2704
+,,,,,Forest: Oak/Hickory Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7152,1.2848
+,,,,,Forest: Oak/Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7528,1.2472
+,,,,,Forest: Other Western Hardwoods Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,1.0000,1.0000
+,,,,,Forest: Other Western Softwood Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6459,1.3541
+,,,,,Forest: Pinyon/Juniper Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6302,1.3698
+,,,,,Forest: Ponderosa Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6308,1.3692
+,,,,,Forest: Redwood Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7809,1.2191
+,,,,,Forest: Spruce/Fir Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6812,1.3188
+,,,,,Forest: Tanoak/Laurel Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7225,1.2775
+,,,,,Forest: Tropical Hardwoods Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.8137,1.1863
+,,,,,Forest: Western Larch Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7104,1.2896
+,,,,,Forest: Western Oak Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.3685,1.6315
+,,,,,Forest: Western White Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.6467,1.3533
+,,,,,Forest: White/Red/Jack Pine Group,,,Net Growth Forest: Total,Net Growth Uncertainty,1.0000,Uniform,Iteration Only,,0.7912,1.2088

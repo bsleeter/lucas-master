@@ -1,0 +1,5 @@
+Iteration,Timestep,StratumID,SecondaryStratumID,TertiaryStratumID,StateClassID,AgeMin,AgeMax,FlowGroupID,FlowMultiplierTypeID,Value,DistributionType,DistributionFrequencyID,DistributionSD,DistributionMin,DistributionMax
+,2002,,,,,,,Net Growth Forest: Total,,0.0100,,,,,
+,2002,,,,,,,Net Growth Non Forest: Total,,0.0100,,,,,
+,2002,,,,,,,Q10 Fast Flows,,0.0100,,,,,
+,2002,,,,,,,Q10 Slow Flows,,0.0100,,,,,

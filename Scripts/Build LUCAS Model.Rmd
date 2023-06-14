@@ -1,0 +1,350 @@
+---
+title: "Create LUCAS Model"
+output: html_document
+date: sys.Date()
+editor_options: 
+  chunk_output_type: console
+---
+
+# Settings 
+## Set up RMarkdown options and custom functions
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Conditional statement
+Con <- function(condition, trueValue, falseValue){
+  return(condition * trueValue + (!condition) * falseValue)
+}
+
+# Spatial reference
+projectionCRS = "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 +lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"
+```
+
+## Load libraries required to run script
+```{r}
+library(rsyncrosim)
+library(tidyverse)
+library(terra)
+```
+
+## Define file paths
+```{r}
+rootPath = "F:/lucas-master/"
+ssimDir = "F:/dod/installation/jblm/models/"
+SyncroSimDir <- "C:/Program Files/SyncroSim/"
+
+modelPath = "models/"
+dataPath = "Data/"
+sourceDataPath = "Data Sources/"
+definitionsPath = paste0(rootPath, dataPath, "Definitions/")
+stockFlowPath = paste0(rootPath, dataPath, "Stock Flow/")
+
+modelName = "LUCAS Template"
+```
+
+## Create empty LUCAS library and project and enables the stock flow addon
+```{r}
+myLibrary = ssimLibrary(name = paste0(rootPath, modelPath, modelName, ".ssim"), package = "stsim", addon = "stsimsf")
+myProject = rsyncrosim::project(myLibrary, project="Definitions")
+```
+
+
+
+# Load Project Definitions
+
+These definitions apply to any and all LUCAS models (version 1.2). They include all of the necessary carbon Stock and Flow (SF) definitions to run the LUCAS carbon model. In addition, the definitions include the basic structure for the LULC change model. All state classes are defined, as are a set of transitions. Note, these can be modified. However, the carbon SF model requires consistent use of forest type-groups in order to estimate carbon dynamics.
+
+## Get a list of the Project level data sheets
+```{r}
+datasheet(myProject)
+```
+
+## Define the terminology used in the model (both STSM and SF)
+```{r}
+sheetName = "stsim_Terminology"
+csvName = "Terminology.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsimsf_Terminology"
+csvName = "Terminology SF.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
+## Define the State Class Types
+```{r}
+sheetName = "stsim_StateLabelX"
+csvName = "LULC.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_StateLabelY"
+csvName = "Subclass.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_StateClass"
+csvName = "State Class.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
+## Define the Transition types and groups
+```{r}
+sheetName = "stsim_TransitionType"
+csvName = "Transition Type.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_TransitionGroup"
+csvName = "Transition Group.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_TransitionTypeGroup"
+csvName = "Transition Types by Group.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_TransitionSimulationGroup"
+csvName = "Transition Simulation Groups.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
+## Define Age types and groups
+```{r}
+sheetName = "stsim_AgeType"
+csvName = "Age Types.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_AgeGroup"
+csvName = "Age Groups.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
+## Define State Attribute types and groups, Distribution types, and External Variable types.
+```{r}
+sheetName = "stsim_AttributeGroup"
+csvName = "Attribute Group.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsim_StateAttributeType"
+csvName = "State Attribute Type.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "corestime_DistributionType"
+csvName = "Distributions.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "corestime_ExternalVariableType"
+csvName = "External Variables.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
+## Define Carbon Stock Flow types and groups
+```{r}
+sheetName = "stsimsf_StockType"
+csvName = "Stock Type.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsimsf_StockGroup"
+csvName = "Stock Group.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsimsf_FlowType"
+csvName = "Flow Type.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsimsf_FlowGroup"
+csvName = "Flow Group.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+
+sheetName = "stsimsf_FlowMultiplierType"
+csvName = "Flow Multiplier Type.csv"
+myData = read.csv(paste0(definitionsPath, csvName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
+
+
+# Load Stock Flow Model Parameters
+
+## Load flow pathways diagrams
+```{r}
+# Base Flows
+mySenario = scenario(myProject, "SF Flow Pathways [Base Flows]")
+sheetName = "stsimsf_FlowPathwayDiagram"
+csvName = "Flow Pathway Diagram.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+sheetName = "stsimsf_FlowPathway"
+csvName = "Flow Pathways - Base Flows.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Transition-triggered flows
+myScenario = scenario(myProject, "SF Flow Pathways [Event Flows]")
+sheetName = "stsimsf_FlowPathwayDiagram"
+csvName = "Flow Pathway Diagram.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+sheetName = "stsimsf_FlowPathway"
+csvName = "Flow Pathways - Event Flows.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Merge SF pathway diagrams into single subscenario
+myScenario = scenario(myProject, "SF Flow Pathways")
+mergeDependencies(myScenario) = TRUE
+dependency(myScenario, dependency = c("SF Flow Pathways [Base Flows]", "SF Flow Pathways [Event Flows]"))
+```
+
+## Define Flow Multipliers sub-scenarios
+```{r}
+mySenario = scenario(myProject, "SF Flow Multipliers [Forest]")
+sheetName = "stsimsf_FlowMultiplier"
+csvName = "Flow Multipliers - Forest.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+mySenario = scenario(myProject, "SF Flow Multipliers [Grassland Shrubland]")
+sheetName = "stsimsf_FlowMultiplier"
+csvName = "Flow Multipliers - Grassland Shrubland.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+mySenario = scenario(myProject, "SF Flow Multipliers [Non Forest]")
+sheetName = "stsimsf_FlowMultiplier"
+csvName = "Flow Multipliers - Non Forest.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+mySenario = scenario(myProject, "SF Flow Multipliers [Net Growth Uncertainty]")
+sheetName = "stsimsf_FlowMultiplier"
+csvName = "Flow Multipliers - Net Growth Uncertainty.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Note: Only used when using spatial climate data as flow spatial multipliers. Spatial flow multipliers area stored as 8-bit integers and the scalar is used to convert back to floating point values. This scenario MUST be added as a dependency. For purposes of this script, it is assumed the user has Spatial Flow Multipliers. 
+mySenario = scenario(myProject, "SF Flow Multipliers [Scalar]")
+sheetName = "stsimsf_FlowMultiplier"
+csvName = "Flow Multipliers - Scalar.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Merge SF pathway diagrams into single sub-scenario without net growth uncertainty.
+myScenario = scenario(myProject, "SF Flow Multipliers")
+mergeDependencies(myScenario) = TRUE
+dependency(myScenario, dependency = c("SF Flow Multipliers [Forest]", 
+                                      "SF Flow Multipliers [Grassland Shrubland]",
+                                      "SF Flow Multipliers [Non Forest]",
+                                      "SF Flow Multipliers [Net Growth Uncertainty]",
+                                      "SF Flow Multipliers [Scalar]"))
+```
+
+
+## Define Flow Order
+```{r}
+mySenario = scenario(myProject, "SF Flow Order")
+sheetName = "stsimsf_FlowOrder"
+csvName = "Flow Order.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+```
+
+## Define Flow Group and Stock Group Membership
+```{r}
+mySenario = scenario(myProject, "SF Stock and Flow Group Membership")
+
+sheetName = "stsimsf_FlowTypeGroupMembership"
+csvName = "Flow Type-Group Membership.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+sheetName = "stsimsf_StockTypeGroupMembership"
+csvName = "Stock Type-Group Membership.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+```
+
+## Define Stock and Flow Output Options and Filters
+```{r}
+mySenario = scenario(myProject, "SF Output Options and Filters")
+
+sheetName = "stsimsf_OutputOptions"
+csvName = "SF Output Options.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+sheetName = "stsimsf_OutputFilterStocks"
+csvName = "Filter Stock Output.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+sheetName = "stsimsf_OutputFilterFlows"
+csvName = "Filter Flow Output.csv"
+myData = read.csv(paste0(stockFlowPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+```
+
+
+
+
+
+
+
+
+
+
+
+## Defining a study area
+
+LUCAS can be run at any scale and for virtually any sized landscape (depending upon computational resources). The first step is to define a landscape of analysis. In this example we will use a single ecological region - the Sierra Nevada Mountains in California. The study area is defined as an EPA Level III ecoregion. This code will download the source data (ESRI shapefile), project it to our common coordinate system, and prepare a 30-meter raster of the study region.
+
+```{r}
+ecoData
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
