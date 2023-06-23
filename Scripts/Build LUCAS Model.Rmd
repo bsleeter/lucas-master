@@ -25,15 +25,16 @@ projectionCRS = "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 +lat_2=45.5 +x_0=0 +
 library(rsyncrosim)
 library(tidyverse)
 library(terra)
+library(sf)
+library(tidyterra)
 ```
 
 ## Define file paths
 ```{r}
 rootPath = "F:/lucas-master/"
-ssimDir = "F:/dod/installation/jblm/models/"
 SyncroSimDir <- "C:/Program Files/SyncroSim/"
 
-modelPath = "models/"
+modelPath = "Models/"
 dataPath = "Data/"
 sourceDataPath = "Data Sources/"
 definitionsPath = paste0(rootPath, dataPath, "Definitions/")
@@ -42,12 +43,78 @@ stockFlowPath = paste0(rootPath, dataPath, "Stock Flow/")
 modelName = "LUCAS Template"
 ```
 
-## Create empty LUCAS library and project and enables the stock flow addon
+
+# Define the Study Area
+
+## Read in shapefile of study areas (Installations)
 ```{r}
-myLibrary = ssimLibrary(name = paste0(rootPath, modelPath, modelName, ".ssim"), package = "stsim", addon = "stsimsf")
+shapeDir = "Study Areas/DOD Installations/Demo Installations/"
+shapeList = list.files(paste0(rootPath, sourceDataPath, shapeDir), "*.shp$")
+studyArea = read_sf(paste0(rootPath, sourceDataPath, shapeDir, shapeList))
+studyAreaList = sort(unique(studyArea$INSTALL))
+studyAreaList
+```
+
+## Select Study Area and subset from shapefile
+```{r}
+installName = studyAreaList[8]
+installShape = studyArea %>% 
+  filter(INSTALL == installName) %>%
+  mutate(installID = 1, 
+         siteID = seq(1,nrow(installShape)))
+```
+
+## Create Installation directory and create necessary sub directories
+```{r}
+modelFullPath = paste0(rootPath, modelPath, installName) 
+dir.create(modelFullPath)
+dir.create(paste0(modelFullPath, "/Data"))
+
+# Initial Conditions
+dir.create(paste0(modelFullPath, "/Data/Initial Conditions"))
+
+# Transition Spatial Multipliers
+dir.create(paste0(modelFullPath, "/Data/Transition Spatial Multipliers"))
+dir.create(paste0(modelFullPath, "/Data/Transition Spatial Multipliers/Urbanization"))
+dir.create(paste0(modelFullPath, "/Data/Transition Spatial Multipliers/Harvest"))
+dir.create(paste0(modelFullPath, "/Data/Transition Spatial Multipliers/Fire"))
+
+# Flow Spatial Multipliers
+dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers"))
+dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers/Growth Forest"))
+dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers/Growth Non Forest"))
+dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers/Q10 Fast"))
+dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers/Q10 Slow"))
+```
+
+
+## Convert polygon study area into raster and write out as Initial Conditions (Strata)
+```{r}
+v = vect(installShape)
+r = rast(v, res=30)
+installRaster = rasterize(v, r, "installID")
+siteRaster = rasterize(v, r, "siteID")
+plot(installRaster)
+plot(siteRaster)
+
+writeRaster(installRaster, paste0(modelFullPath, "/Data/Initial Conditions/PrimaryStrata.tif"), overwrite=T)
+writeRaster(siteRaster, paste0(modelFullPath, "/Data/Initial Conditions/SecondaryStrata.tif"), overwrite=T)
+```
+
+
+
+
+# Create empty LUCAS library and project and enables the stock flow addon
+```{r}
+myLibrary = ssimLibrary(name = paste0(modelFullPath, "/", modelName, ".ssim"), package = "stsim", addon = "stsimsf")
 myProject = rsyncrosim::project(myLibrary, project="Definitions")
 ```
 
+# Create empty LUCAS library and project and enables the stock flow addon (Master Library)
+```{r}
+# myLibrary = ssimLibrary(name = paste0(rootPath, modelPath, "/", modelName, ".ssim"), package = "stsim", addon = "stsimsf")
+# myProject = rsyncrosim::project(myLibrary, project="Definitions")
+```
 
 
 # Load Project Definitions
@@ -301,23 +368,327 @@ myData = read.csv(paste0(stockFlowPath, csvName))
 saveDatasheet(myScenario, myData, sheetName)
 ```
 
+## Flow Spatial Multipliers
+This section requires downloading or acquiring historical climate data which is processed to create spatial flow multipliers for NPP and DOM respiration. For this script we use PRISM historical climate data for mean annual temperature and total annual precipitation.
 
+PRISM data can be downloaded here: https://prism.oregonstate.edu/recent/
 
-
-
-
-
-
-
-
-
-## Defining a study area
-
-LUCAS can be run at any scale and for virtually any sized landscape (depending upon computational resources). The first step is to define a landscape of analysis. In this example we will use a single ecological region - the Sierra Nevada Mountains in California. The study area is defined as an EPA Level III ecoregion. This code will download the source data (ESRI shapefile), project it to our common coordinate system, and prepare a 30-meter raster of the study region.
-
+### Load Study area mask file
 ```{r}
-ecoData
+studyAreaMask = installRaster
 ```
+
+### Define folders and directories
+```{r}
+inputClimDataPrism = paste0(rootPath, sourceDataPath, "Climate/prism/annual/")
+inputClimDataPrismNormals = paste0(rootPath, sourceDataPath, "Climate/prism/normals/")
+```
+
+### Get list of mean annual temperature and total annual precip rasters and then create raster stacks for each
+```{r}
+tempList = list.files(paste0(inputClimDataPrism, "tmean/"), pattern = "*bil.bil$", recursive = T)
+precipList = list.files(paste0(inputClimDataPrism, "precip/"), pattern = "*bil.bil$", recursive = T)
+
+tempStack = rast(paste0(inputClimDataPrism, "tmean/", tempList))
+precipStack = rast(paste0(inputClimDataPrism, "precip/", precipList))
+```
+
+### Calculate fMAP and fMAT for the raster stacks for forest
+```{r}
+fMatForest <- 2540 / (1 + exp(1.584-0.0622*tempStack))
+fMapForest <- (0.551 * precipStack^1.055) / exp(0.000306 * precipStack)
+```
+
+### Calculate Forest and Non-Forest NPP
+```{r}
+# Forest NPP
+forestNpp = Con(fMapForest < fMatForest, fMapForest, fMatForest)
+names(forestNpp) = paste0("forestNpp_", seq(2000,2022))
+
+# Non Forest NPP 
+nonForestNpp = 6116*(1-exp(-6.05*(10^-5)*precipStack)) 
+names(nonForestNpp) = paste0("nonForestNpp_", seq(2000,2022))
+```
+
+### Read in the 30-year climate normals and calculate NPP for froest and Non-Forest
+```{r}
+tempNormal = rast(paste0(inputClimDataPrismNormals, "/PRISM_tmean_30yr_normal_4kmM4_annual_bil/PRISM_tmean_30yr_normal_4kmM4_annual_bil.bil"))
+precipNormal = rast(paste0(inputClimDataPrismNormals, "/PRISM_ppt_30yr_normal_4kmM4_annual_bil/PRISM_ppt_30yr_normal_4kmM4_annual_bil.bil"))
+
+fMatForestNormal <- 2540 / (1 + exp(1.584-0.0622*tempNormal))
+fMapForestNormal <- (0.551 * precipNormal^1.055) / exp(0.000306 * precipNormal)
+
+forestNppNormal = Con(fMapForestNormal < fMatForestNormal, fMapForestNormal, fMatForestNormal)
+nonForestNppNormal = 6116*(1-exp(-6.05*(10^-5)*precipNormal)) 
+```
+
+### Calculate the NPP Anomoly
+```{r}
+forestNppAnomoly = forestNpp/forestNppNormal
+names(forestNppAnomoly) = paste0("forestNppAnom_", seq(2000,2022))
+
+nonForestAnomoly = nonForestNpp/nonForestNppNormal
+names(nonForestAnomoly) = paste0("nonForestNppAnom_", seq(2000,2022))
+```
+
+### Clip and reproject to California mask and extent
+```{r}
+# Forest
+forestNppMult = terra::project(forestNppAnomoly, studyAreaMask)
+forestNppMult = mask(forestNppMult, studyAreaMask)
+names(forestNppMult) = paste0("forestNppMult_", seq(2000,2022))
+
+# Non Forest
+nonforestNppMult = terra::project(nonForestAnomoly, studyAreaMask)
+nonforestNppMult = mask(nonforestNppMult, studyAreaMask)
+names(nonforestNppMult) = paste0("nonForestNppMult_", seq(2000,2022))
+
+# Plot the 2020 Anomoly
+plot(forestNppMult$forestNppMult_2022)
+plot(nonforestNppMult$nonForestNppMult_2022)
+```
+
+### Calculate the Q10 decomposition multipliers
+```{r}
+q10FastRate = 2.65
+q10SlowRate = 2.00
+
+# Calculate the decomposition multipliers
+q10Fast = (1*q10FastRate^((tempStack-tempNormal)/10))
+q10Slow = (1*q10SlowRate^((tempStack-tempNormal)/10))
+
+# Project and mask to study area
+q10Fast = terra::project(q10Fast, studyAreaMask)
+q10Fast = mask(q10Fast, studyAreaMask)
+names(q10Fast) = paste0("q10Fast_", seq(2000,2022))
+
+q10Slow = terra::project(q10Slow, studyAreaMask)
+q10Slow = mask(q10Slow, studyAreaMask)
+names(q10Slow) = paste0("q10Slow_", seq(2000,2022))
+
+plot(q10Fast$q10Fast_2022)
+```
+
+### Convert multipliers to Integers
+```{r}
+forestNppMultInt = forestNppMult*100
+nonforestNppMultInt = nonforestNppMult*100
+q10FastInt = q10Fast*100
+q10SlowInt = q10Slow*100
+```
+
+### Write ratser multipliers to disk
+```{r}
+outDir = paste0(modelFullPath, "/Data/Flow Spatial Multipliers/")
+writeRaster(forestNppMultInt, filename=paste0(outDir,"Growth Forest/", names(forestNppMultInt), ".tif"), datatype="INT2U",overwrite=T)
+writeRaster(nonforestNppMultInt, filename=paste0(outDir,"Growth Non Forest/", names(nonforestNppMult), ".tif"), datatype="INT2U", overwrite=T)
+writeRaster(q10FastInt, filename=paste0(outDir,"Q10 Fast/", names(q10FastInt), ".tif"), datatype="INT2U", overwrite=T)
+writeRaster(q10SlowInt, filename=paste0(outDir,"Q10 Slow/", names(q10SlowInt), ".tif"), datatype="INT2U", overwrite=T)
+```
+
+### Write data into LUCAS subscenarios
+```{r}
+flowMultipliersPath = "Data/Flow Spatial Multipliers/"
+inputRasterDir = paste0(modelFullPath, "/", flowMultipliersPath)
+
+# Forest Growth
+
+myScenario <- scenario(myProject, scenario = "SF Flow Spatial Multipliers [PRISM Historical; Growth; Forest]")
+sheetName = "stsimsf_FlowSpatialMultiplier"
+myData = data.frame(Timestep = seq(2000,2022),
+                     FlowGroupID = "Net Growth Forest: Total",
+                     MultiplierFileName = paste0(inputRasterDir, "Growth Forest/forestNppMult_", seq(2000,2022), ".tif"))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Non Forest Growth
+myScenario <- scenario(myProject, scenario = "SF Flow Spatial Multipliers [PRISM Historical; Growth; Non Forest]")
+sheetName <- "stsimsf_FlowSpatialMultiplier"
+myData = data.frame(Timestep = seq(2000,2022),
+                     FlowGroupID = "Net Growth Non Forest: Total",
+                     MultiplierFileName = paste0(inputRasterDir, "Growth Non Forest/nonForestNppMult_", seq(2000,2022), ".tif"))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Q10 Fast
+myScenario <- scenario(myProject, scenario = "SF Flow Spatial Multipliers [PRISM Historical; Q10 Fast]")
+sheetName <- "stsimsf_FlowSpatialMultiplier"
+myData = data.frame(Timestep = seq(2000,2022),
+                     FlowGroupID = "Q10 Fast Flows",
+                     MultiplierFileName = paste0(inputRasterDir, "Q10 Fast/q10Fast_", seq(2000,2022), ".tif"))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Q10 Slow
+myScenario <- scenario(myProject, scenario = "SF Flow Spatial Multipliers [PRISM Historical; Q10 Slow]")
+sheetName <- "stsimsf_FlowSpatialMultiplier"
+myData = data.frame(Timestep = seq(2000,2022),
+                     FlowGroupID = "Q10 Slow Flows",
+                     MultiplierFileName = paste0(inputRasterDir, "Q10 Slow/q10Slow_", seq(2000,2022), ".tif"))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Merge Dependencies
+myScenario <- scenario(myProject, scenario = "SF Flow Spatial Multipliers [PRISM Historical]")
+mergeDependencies(myScenario) = T
+dependency(myScenario, dependency = c("SF Flow Spatial Multipliers [PRISM Historical; Growth; Forest]",
+                                      "SF Flow Spatial Multipliers [PRISM Historical; Growth; Non Forest]",
+                                      "SF Flow Spatial Multipliers [PRISM Historical; Q10 Fast]",
+                                      "SF Flow Spatial Multipliers [PRISM Historical; Q10 Slow]"))
+```
+
+
+
+
+
+# State and Transition Model
+
+## Initial Conditions
+This establishes a starting LULC map for the year 2001. This script requires the user to download the 2019 release of the National Land Cover Database which contains all years of NLCD spanning the period 2001-2019.
+
+### Read in each NLCD time period, crop, and reproject.
+```{r}
+nlcdPath = "I:/GIS-Raster/Land Cover/NLCD/2019/NLCD_landcover_2019_release_all_files_20210604/"
+
+# NLCD 2001
+nlcd2001 = rast(paste0(nlcdPath, "nlcd_2001_land_cover_l48_20210604.img"))
+nlcd2001 = crop(nlcd2001, studyAreaMask)
+nlcd2001 = terra::project(nlcd2001, studyAreaMask, method="near")
+nlcd2001 = mask(nlcd2001, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2001)) %>% mutate(Value = seq(0,255))
+levels(nlcd2001) = nlcdTable
+activeCat(nlcd2001) = "Value"
+nlcd2001 = as.numeric(nlcd2001)
+
+# NLCD 2004
+nlcd2004 = rast(paste0(nlcdPath, "nlcd_2004_land_cover_l48_20210604.img"))
+nlcd2004 = crop(nlcd2004, studyAreaMask)
+nlcd2004 = terra::project(nlcd2004, studyAreaMask, method="near")
+nlcd2004 = mask(nlcd2004, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2004)) %>% mutate(Value = seq(0,255))
+levels(nlcd2004) = nlcdTable
+activeCat(nlcd2004) = "Value"
+nlcd2004 = as.numeric(nlcd2004)
+
+# NLCD 2006
+nlcd2006 = rast(paste0(nlcdPath, "nlcd_2006_land_cover_l48_20210604.img"))
+nlcd2006 = crop(nlcd2006, studyAreaMask)
+nlcd2006 = terra::project(nlcd2006, studyAreaMask, method="near")
+nlcd2006 = mask(nlcd2006, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2006)) %>% mutate(Value = seq(0,255))
+levels(nlcd2006) = nlcdTable
+activeCat(nlcd2006) = "Value"
+nlcd2006 = as.numeric(nlcd2006)
+
+# NLCD 2008
+nlcd2008 = rast(paste0(nlcdPath, "nlcd_2008_land_cover_l48_20210604.img"))
+nlcd2008 = crop(nlcd2008, studyAreaMask)
+nlcd2008 = terra::project(nlcd2008, studyAreaMask, method="near")
+nlcd2008 = mask(nlcd2008, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2008)) %>% mutate(Value = seq(0,255))
+levels(nlcd2008) = nlcdTable
+activeCat(nlcd2008) = "Value"
+nlcd2008 = as.numeric(nlcd2008)
+
+# NLCD 2011
+nlcd2011 = rast(paste0(nlcdPath, "nlcd_2011_land_cover_l48_20210604.img"))
+nlcd2011 = crop(nlcd2011, studyAreaMask)
+nlcd2011 = terra::project(nlcd2011, studyAreaMask, method="near")
+nlcd2011 = mask(nlcd2011, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2011)) %>% mutate(Value = seq(0,255))
+levels(nlcd2011) = nlcdTable
+activeCat(nlcd2011) = "Value"
+nlcd2011 = as.numeric(nlcd2011)
+
+# NLCD 2013
+nlcd2013 = rast(paste0(nlcdPath, "nlcd_2013_land_cover_l48_20210604.img"))
+nlcd2013 = crop(nlcd2013, studyAreaMask)
+nlcd2013 = terra::project(nlcd2013, studyAreaMask, method="near")
+nlcd2013 = mask(nlcd2013, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2013)) %>% mutate(Value = seq(0,255))
+levels(nlcd2013) = nlcdTable
+activeCat(nlcd2013) = "Value"
+nlcd2013 = as.numeric(nlcd2013)
+
+# NLCD 2016
+nlcd2016 = rast(paste0(nlcdPath, "nlcd_2016_land_cover_l48_20210604.img"))
+nlcd2016 = crop(nlcd2016, studyAreaMask)
+nlcd2016 = terra::project(nlcd2016, studyAreaMask, method="near")
+nlcd2016 = mask(nlcd2016, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2016)) %>% mutate(Value = seq(0,255))
+levels(nlcd2016) = nlcdTable
+activeCat(nlcd2016) = "Value"
+nlcd2016 = as.numeric(nlcd2016)
+
+# NLCD 2019
+nlcd2019 = rast(paste0(nlcdPath, "nlcd_2019_land_cover_l48_20210604.img"))
+nlcd2019 = crop(nlcd2019, studyAreaMask)
+nlcd2019 = terra::project(nlcd2019, studyAreaMask, method="near")
+nlcd2019 = mask(nlcd2019, studyAreaMask)
+
+nlcdTable = data.frame(cats(nlcd2019)) %>% mutate(Value = seq(0,255))
+levels(nlcd2019) = nlcdTable
+activeCat(nlcd2019) = "Value"
+nlcd2019 = as.numeric(nlcd2019)
+
+```
+
+### Create maximum forest extent raster from all NLCD time periods
+```{r}
+m = c(0,39,0, 40,49,1, 50,Inf,0)
+rclmat <- matrix(m, ncol=3, byrow=TRUE)
+
+nlcdForestStack = c(nlcd2001, nlcd2004, nlcd2006, nlcd2008, nlcd2011, nlcd2013, nlcd2016, nlcd2019)
+names(nlcdForestStack) = c("nlcd2001", "nlcd2004", "nlcd2006", "nlcd2008", "nlcd2011", "nlcd2013", "nlcd2016", "nlcd2019")
+nlcdForestStack = classify(nlcdForestStack, rclmat, others=NA)
+
+m = c(1,Inf,1)
+rclmat <- matrix(m, ncol=3, byrow=TRUE)
+
+nlcdForest = sum(nlcdForestStack)
+nlcdForest = classify(nlcdForest, rclmat)
+plot(nlcdForest)
+```
+
+### Replace NLCD2001 non forest cells with maximum forest extent
+```{r}
+nlcd2001Update = Con(nlcdForest==1, 41, nlcd2001)
+plot(nlcd2001Update)
+plot(nlcd2001)
+writeRaster(nlcd2001Update, paste0(installPath, "data/source-data/nlcd/", "nlcd_2001_land_cover_max_forest", ".tif"), format="GTiff", overwrite=T)
+```
+
+### Use TreeMap2014 to create a Forest Type-Group map
+```{r}
+forestTypeGroup = read_csv(paste0(sourceDataPath, "Forest Type-Group Crosswalk.csv"))
+stateClassTable = read_csv(paste0(definitionsPath, "State Class.csv"))
+
+```
+
+## Transition Pathways
+
+## Distributions
+
+## External Variables
+
+## Transition Targets
+
+## Transition Multipliers
+
+## Transition Spatial Multipliers
+
+## Transition Size
+
+## Adjacency
+
+## State Attributes
+
+
+
+
 
 
 
