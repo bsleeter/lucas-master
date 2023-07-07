@@ -84,3 +84,7 @@ Urbanization: High,4,"255,128,0,128",,NLCD Change
 Urbanization: Low,2,"255,165,42,42",,NLCD Change
 Urbanization: Medium,3,"255,0,255,255",,NLCD Change
 Urbanization: Open,1,"255,128,128,128",,NLCD Change
+Restoration Wetland: Estuarine Emergent,228,"255,175,0,175",,
+Restoration Wetland: Estuarine Forested,229,"255,61,0,61",,
+Restoration Wetland: Palustrine Emergent,230,"255,242,0,242",,
+Restoration Wetland: Palustrine Forested,231,"255,0,91,91",,
