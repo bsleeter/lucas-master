@@ -6,8 +6,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Settings 
+# Settings
+
 ## Set up RMarkdown options and custom functions
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
@@ -21,15 +23,19 @@ projectionCRS = "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 +lat_2=45.5 +x_0=0 +
 ```
 
 ## Load libraries required to run script
+
 ```{r}
 library(rsyncrosim)
 library(tidyverse)
 library(terra)
 library(sf)
 library(tidyterra)
+library(FedData)
+library(raster)
 ```
 
 ## Define file paths
+
 ```{r}
 rootPath = "F:/lucas-master/"
 SyncroSimDir <- "C:/Program Files/SyncroSim/"
@@ -43,10 +49,9 @@ stockFlowPath = paste0(rootPath, dataPath, "Stock Flow/")
 modelName = "LUCAS Template"
 ```
 
-
 # Define the Study Area
-
 ## Read in shapefile of study areas (Installations)
+
 ```{r}
 shapeDir = "Study Areas/DOD Installations/Demo Installations/"
 shapeList = list.files(paste0(rootPath, sourceDataPath, shapeDir), "*.shp$")
@@ -56,15 +61,19 @@ studyAreaList
 ```
 
 ## Select Study Area and subset from shapefile
+
 ```{r}
-installName = studyAreaList[8]
+installName = studyAreaList[10]
 installShape = studyArea %>% 
-  filter(INSTALL == installName) %>%
+  filter(INSTALL == installName)
+installShape = installShape %>%
   mutate(installID = 1, 
          siteID = seq(1,nrow(installShape)))
+
 ```
 
 ## Create Installation directory and create necessary sub directories
+
 ```{r}
 modelFullPath = paste0(rootPath, modelPath, installName) 
 dir.create(modelFullPath)
@@ -87,13 +96,15 @@ dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers/Q10 Fast"))
 dir.create(paste0(modelFullPath, "/Data/Flow Spatial Multipliers/Q10 Slow"))
 ```
 
-
 ## Convert polygon study area into raster and write out as Initial Conditions (Strata)
+
 ```{r}
-v = vect(installShape)
+
+s = filter(installShape, rpsuid==3376) # This selects a single sub-installation using internal code
+v = vect(s)
 r = rast(v, res=30)
 installRaster = rasterize(v, r, "installID")
-siteRaster = rasterize(v, r, "siteID")
+siteRaster = rasterize(v, r, "rpsuid")
 plot(installRaster)
 plot(siteRaster)
 
@@ -101,32 +112,385 @@ writeRaster(installRaster, paste0(modelFullPath, "/Data/Initial Conditions/Prima
 writeRaster(siteRaster, paste0(modelFullPath, "/Data/Initial Conditions/SecondaryStrata.tif"), overwrite=T)
 ```
 
+# Build Initial Conditions State Class Map
+
+This establishes a starting LULC map for the year 2001. This script requires the user to download the 2019 release of the National Land Cover Database which contains all years of NLCD spanning the period 2001-2019.
+
+## NCLD Time series
+NLCD data can be downloaded using the R "FedData" package.
+
+```{r}
+dir.create("Data Sources/NCLD/")
+nlcdPath = "Data Sources/NLCD/"
+
+# NLCD 2001
+nlcd2001 = rast(get_nlcd(template = installRaster, label = "test", year = 2001))
+nlcdTable = data.frame(cats(nlcd2001)) %>% mutate(Value = seq(0,255))
+levels(nlcd2001) = nlcdTable
+activeCat(nlcd2001) = "Value"
+
+# NCLD 2004
+nlcd2004 = rast(get_nlcd(template = installRaster, label = "test", year = 2004))
+nlcdTable = data.frame(cats(nlcd2004)) %>% mutate(Value = seq(0,255))
+levels(nlcd2004) = nlcdTable
+activeCat(nlcd2004) = "Value"
+
+# NCLD 2006
+nlcd2006 = rast(get_nlcd(template = installRaster, label = "test", year = 2006))
+nlcdTable = data.frame(cats(nlcd2006)) %>% mutate(Value = seq(0,255))
+levels(nlcd2006) = nlcdTable
+activeCat(nlcd2006) = "Value"
+
+# NCLD 2008
+nlcd2008 = rast(get_nlcd(template = installRaster, label = "test", year = 2008))
+nlcdTable = data.frame(cats(nlcd2008)) %>% mutate(Value = seq(0,255))
+levels(nlcd2008) = nlcdTable
+activeCat(nlcd2008) = "Value"
+
+# NCLD 2011
+nlcd2011 = rast(get_nlcd(template = installRaster, label = "test", year = 2011))
+nlcdTable = data.frame(cats(nlcd2011)) %>% mutate(Value = seq(0,255))
+levels(nlcd2011) = nlcdTable
+activeCat(nlcd2011) = "Value"
+
+# NCLD 2013
+nlcd2013 = rast(get_nlcd(template = installRaster, label = "test", year = 2013))
+nlcdTable = data.frame(cats(nlcd2013)) %>% mutate(Value = seq(0,255))
+levels(nlcd2013) = nlcdTable
+activeCat(nlcd2013) = "Value"
+
+# NCLD 2016
+nlcd2016 = rast(get_nlcd(template = installRaster, label = "test", year = 2016))
+nlcdTable = data.frame(cats(nlcd2016)) %>% mutate(Value = seq(0,255))
+levels(nlcd2016) = nlcdTable
+activeCat(nlcd2016) = "Value"
+
+# NCLD 2019
+nlcd2019 = rast(get_nlcd(template = installRaster, label = "test", year = 2019))
+nlcdTable = data.frame(cats(nlcd2019)) %>% mutate(Value = seq(0,255))
+levels(nlcd2019) = nlcdTable
+activeCat(nlcd2019) = "Value"
+
+# NCLD 2021
+nlcd2021 = rast(get_nlcd(template = installRaster, label = "test", year = 2021))
+nlcdTable = data.frame(cats(nlcd2021)) %>% mutate(Value = seq(0,255))
+levels(nlcd2021) = nlcdTable
+activeCat(nlcd2021) = "Value"
+
+# NLCD Stack
+nlcdStack = c(nlcd2001, nlcd2004, nlcd2006, nlcd2008, nlcd2011, nlcd2013, nlcd2016, nlcd2019, nlcd2021)
+nlcdStack = terra::project(nlcdStack, installRaster, method="near")
+nlcdStack = mask(nlcdStack, installRaster)
+raster::plot(nlcdStack)
+names(nlcdStack) = c(paste0("NLCD_", c(2001,2004,2006,2008,2011,2013,2016,2019, 2021)))
+
+plot(nlcdStack)
+
+# Write NLCD data to disk
+dir.create(paste0(modelFullPath, "/Data/Initial Conditions/NLCD"))
+terra::writeRaster(nlcdStack, paste0(modelFullPath, "/Data/Initial Conditions/NLCD/", names(nlcdStack), ".tif"), overwrite=T)
+
+```
+
+### Create maximum forest extent raster from all NLCD time periods
+
+```{r}
+# Reclassify to forest only cells and then sum across all layers.
+m = c(0,39,0, 40,49,1, 50,Inf,0)
+rclmat <- matrix(m, ncol=3, byrow=TRUE)
+nlcdForestStack = classify(nlcdStack, rclmat, others=NA)
+nlcdForest = sum(nlcdForestStack)
+
+# Reclassify so if cell was ever classified as forest it has a value of 1.
+m = c(1,Inf,1)
+rclmat <- matrix(m, ncol=3, byrow=TRUE)
+nlcdForest = classify(nlcdForest, rclmat)
+names(nlcdForest) = "NLCD_ForestMax"
+plot(nlcdForest)
+
+terra::writeRaster(nlcdForest, paste0(modelFullPath, "/Data/Initial Conditions/NLCD/", names(nlcdForest), ".tif"), overwrite=T)
+
+```
+
+## Download LandFire EVT 2016 and 2001
+
+Note that the 2001 EVT will be used where 2016 EVT was classified as Recently Disturbed, Recently Logged, and Recently Burned
+
+EVT Forest Type-Group
+
+1.  Download both EVT maps for 2016 and 2001
+2.  Make sure we have the cross CSV tables for each map.
+3.  Run code to do the crosswalk.
+4.  Filter for forest only cells.
+5.  Repeat the imputation used for the forest age to get a continuous map of forest type-group.
+
+```{r}
+
+evtPath = paste0(rootPath, sourceDataPath, "EVT")
+
+# Read in crosswalk tables
+evt2016Crosswalk <- read_csv(paste0(evtPath, "/evt2016-crosswalk-CONUS-v2.csv"))
+evt2001Crosswalk <- read_csv(paste0(evtPath, "/evt2001-crosswalk-CONUS-v2.csv"))
+
+# Read in Spatial Data
+evt2001CONUS <- rast(paste0(evtPath, "/US_105_EVT/US_105_EVT/Tif/us_105evt.tif"))
+evt2016CONUS <- rast(paste0(evtPath, "/LF2016_EVT_200_CONUS/LF2016_EVT_200_CONUS/Tif/LC16_EVT_200.tif"))
+
+# Crop EVT rasters to test extent
+evt2001Crop <- evt2001CONUS %>%
+  crop(y = installRaster)
+
+evt2016Crop <- evt2016CONUS %>%
+  crop(y = installRaster)
+
+# Identify recently disturbed EVT values
+recentlyDisturbedEvt <- evt2016Crosswalk %>%
+  filter(str_detect(EVT_NAME, "Recently")) %>%
+  pull(VALUE) %>%
+  as.integer()
+
+# Construct joint reclassification lookup
+rcl <-
+  bind_rows(
+    evt2016Crosswalk %>% dplyr::select(from = VALUE, to = ID) ,
+    evt2001Crosswalk %>% dplyr::select(from = Value, to = ID)) %>%
+  filter(
+    !from %in% recentlyDisturbedEvt,
+    from != -9999) %>% # This value is represented in both, must be re-added manually
+  bind_rows(           # Manually add NA behavior
+    tibble(from = c(-9999),
+           to =   c(NA))) %>%
+  mutate_all(as.integer)
+
+# Set recently disturbed cell values in EVT 2016 to NA
+evt2016Crop <- evt2016Crop %>%
+  values() %>%
+  setValues(evt2016Crop, .) %>%
+  subst(from = recentlyDisturbedEvt,
+        to = NA)
+
+# Fill NA cells with EVT 2001 values
+evtCombined <- terra::merge(evt2016Crop, evt2001Crop)
+
+# Reclassify EVT 2016
+forestTypeGroup <- evtCombined %>%
+  classify(rcl = rcl)
+
+# Fill non-forest cells with nearest forest type group
+forestTypeGroup[forestTypeGroup<100] = NA
+
+forestTypeGroupFilled = forestTypeGroup
+naCount = freq(forestTypeGroupFilled, value = NA)
+
+while(naCount$count > 0){
+  forestTypeGroupFilled <- terra::focal(forestTypeGroupFilled, 9, "modal", na.policy="only")
+  naCount = terra::freq(forestTypeGroupFilled, value = NA)
+}
+
+naCount = freq(forestTypeGroupFilled, value = NA)
+forestTypeGroupFilled = terra::project(forestTypeGroupFilled, installRaster, "near")
+forestTypeGroupFilled = mask(forestTypeGroupFilled, installRaster)
+plot(forestTypeGroupFilled)
+
+```
+
+## RCMAP for grassland and shrubland classes
+
+Follows the same basic procedure for EVT. Here we select only the grassland and shrubland classes from RCMAP in 2001. We then fill all other cells with NA and interpolate the grassland/shrubland type using an iterative focal function.
+
+```{r}
+
+rcmapPath = paste0(rootPath, sourceDataPath, "RCMAP")
+
+# Read in Spatial Data
+rcmap <- rast(paste0(rcmapPath, "/2001_test2_full_wtih_tree.img"))
+rcmap = terra::project(rcmap, installRaster, method="near")
+rcmap = crop(rcmap, installRaster)
+rcmap = mask(rcmap, installRaster)
+plot(rcmap)
+
+m = c(1,NA,
+      2,71,
+      3,72,
+      4,73,
+      5,51,
+      6,52,
+      7,53,
+      8,54,
+      9,55,
+      10,NA,
+      11,NA,
+      12,NA)
+rclmat <- matrix(m, ncol=2, byrow=TRUE)
+rcmapFilled <- classify(rcmap, rclmat, include.lowest=TRUE)
+plot(rcmapFilled)
+
+# Fill non-grass/shrub cells with nearest grass/shrub type
+naCount = freq(rcmapFilled, value = NA)
+
+while(naCount$count > 0){
+  rcmapFilled <- terra::focal(rcmapFilled, 9, "modal", na.policy="only")
+  naCount = terra::freq(rcmapFilled, value = NA)
+}
+
+naCount = freq(rcmapFilled, value = NA)
+rcmapFilled = mask(rcmapFilled, installRaster)
+plot(rcmapFilled)
+```
+
+## CCAP Wetland Types
+
+```{r}
+ccapPath = paste0(rootPath, sourceDataPath, "CCAP")
+
+# Read in Spatial Data
+ccap <- rast(paste0(ccapPath, "/conus_2001_ccap_landcover_20200311.tif"))
+ccap = terra::project(ccap, installRaster, method="near")
+ccap = crop(ccap, installRaster)
+ccap = mask(ccap, installRaster)
+plot(ccap)
+
+# Read in CCAP Crosswalk Table
+ccapCrosswalk = read_csv(paste0(ccapPath, "/ccap-state-class-crosswalk.csv")) %>%
+  dplyr::select(ccapClassId, stateClassId)
+
+m = as.matrix(ccapCrosswalk)
+               
+rclmat <- matrix(m, ncol=2, byrow=F)
+ccapReclass <- classify(ccap, rclmat, include.lowest=TRUE)
+ccapReclass[ccapReclass==19] = 99
+ccapReclass[ccapReclass<90] = NA
+plot(ccapReclass, type="classes")
+freq(ccapReclass)
+
+# Fill non-wetland cells with nearest wetland type
+naCount = freq(ccapReclass, value = NA)
+ccapFilled = ccapReclass
+
+while(naCount$count > 0){
+  ccapFilled <- terra::focal(ccapFilled, 9, "modal", na.policy="only")
+  naCount = terra::freq(ccapFilled, value = NA)
+}
+
+naCount = freq(ccapFilled, value = NA)
+ccapFilled = mask(ccapFilled, installRaster)
+plot(ccapFilled)
+
+
+```
+
+
+## Build the final State Class Map
+
+```{r}
+
+# Get the base NLCD map for 2001.
+nlcd2001Filled = terra::project(nlcd2001, installRaster, "near")
+nlcd2001Filled = mask(nlcd2001Filled, installRaster)
+
+stateClassRaster = nlcd2001Filled
+
+# Add in Herbaceous 
+stateClassRaster = Con(stateClassRaster==71, rcmapFilled, stateClassRaster)
+
+# Add in Shrub/Scrub
+stateClassRaster = Con(stateClassRaster==52, rcmapFilled, stateClassRaster)
+
+# Add in forest type-group classes 
+stateClassRaster = Con(nlcdForest == 1, forestTypeGroupFilled, stateClassRaster)
+
+# Add in wetland type-group classes 
+stateClassRaster = Con(stateClassRaster == 95, ccapFilled, stateClassRaster)
+
+# Convert NLCD Wetland types to Forest wetland categories
+# Define what forest type-group to assign to forested wetlands
+forestedWetlandTypeCode = 90
+
+stateClassRaster = Con(stateClassRaster == 90, forestedWetlandTypeCode, stateClassRaster)
+stateClassRaster = Con(stateClassRaster == 91, forestedWetlandTypeCode, stateClassRaster) # Converts Estuarine Forested to Palustrine Forested (Mangroves)
+
+freq(stateClassRaster)
+plot(stateClassRaster, type="classes")
+
+```
+
+## NASA CMS Stand Age
+NASA CMS stand age is available from the following report and can be downloaded through the Oak Ridge National Lab DAAC.
+
+Williams, C.A., N. Hasler, H. Gu, and Y. Zhou. 2020. Forest Carbon Stocks and Fluxes from the NFCMS, Conterminous USA, 1990-2010. ORNL DAAC, Oak Ridge, Tennessee, USA. <https://doi.org/10.3334/ORNLDAAC/1829>
+
+Stand Age data are available in regional tiles at 30-meter spatial resolution. Files correspond to the years 1990, 2000, and 2010. For this work, we utilize the 2000 date to initialize stand age.
+
+```{r} 
+standAge = rast(paste0(sourceDataPath, "Stand Age/cms_age_2000.tif")) 
+standAge = crop(standAge, installRaster) 
+standAge = terra::project(standAge, installRaster, method="near") 
+standAge = mask(standAge, installRaster) 
+plot(standAge)  
+
+# Fill non-forest cells with nearest stand age 
+standAge[standAge==0] = NA 
+standAgeFilled = standAge 
+naCount = freq(standAgeFilled, value = NA)  
+
+while(naCount$count > 0){   
+  standAgeFilled <- terra::focal(standAgeFilled, 9, "modal", na.policy="only")   
+  naCount = terra::freq(standAgeFilled, value = NA) 
+}  
+
+standAgeFilled = mask(standAgeFilled, installRaster) 
+naCount = freq(standAgeFilled, value = NA)  
+plot(standAgeFilled) 
+freq(standAgeFilled) 
+hist(standAgeFilled)
+
+# Create Stand Age based on forest and forested wetland cells
+standAgeRaster = Con(stateClassRaster>=100 | stateClassRaster==90 | stateClassRaster==91, standAgeFilled, 0)
+
+
+```
+
+## Write State Class and Stand Age Initial Conditions to Disk
+
+```{r}
+
+plot(stateClassRaster, type="classes")
+plot(standAgeRaster)
+
+terra::writeRaster(stateClassRaster, paste0(modelFullPath, "/Data/Initial Conditions/", "State Class", ".tif"), overwrite=T)
+terra::writeRaster(standAgeRaster, paste0(modelFullPath, "/Data/Initial Conditions/", "Stand Age", ".tif"), overwrite=T)
+
+```
 
 
 
-# Create empty LUCAS library and project and enables the stock flow addon
+
+
+
+
+
+
+
+# Project Definitions
+
+These definitions apply to any and all LUCAS models (version 1.2). They include all of the necessary carbon Stock and Flow (SF) definitions to run the LUCAS carbon model. In addition, the definitions include the basic structure for the LULC change model. All state classes are defined, as are a set of transitions. Note, these can be modified. However, the carbon SF model requires consistent use of forest type-groups in order to estimate carbon dynamics.
+
+## Create empty LUCAS library and project and enables the stock flow addon
+
 ```{r}
 myLibrary = ssimLibrary(name = paste0(modelFullPath, "/", modelName, ".ssim"), package = "stsim", addon = "stsimsf")
 myProject = rsyncrosim::project(myLibrary, project="Definitions")
 ```
 
-# Create empty LUCAS library and project and enables the stock flow addon (Master Library)
-```{r}
-# myLibrary = ssimLibrary(name = paste0(rootPath, modelPath, "/", modelName, ".ssim"), package = "stsim", addon = "stsimsf")
-# myProject = rsyncrosim::project(myLibrary, project="Definitions")
-```
-
-
-# Load Project Definitions
-
-These definitions apply to any and all LUCAS models (version 1.2). They include all of the necessary carbon Stock and Flow (SF) definitions to run the LUCAS carbon model. In addition, the definitions include the basic structure for the LULC change model. All state classes are defined, as are a set of transitions. Note, these can be modified. However, the carbon SF model requires consistent use of forest type-groups in order to estimate carbon dynamics.
 
 ## Get a list of the Project level data sheets
+
 ```{r}
 datasheet(myProject)
 ```
 
 ## Define the terminology used in the model (both STSM and SF)
+
 ```{r}
 sheetName = "stsim_Terminology"
 csvName = "Terminology.csv"
@@ -139,7 +503,16 @@ myData = read.csv(paste0(definitionsPath, csvName))
 saveDatasheet(myProject, myData, sheetName)
 ```
 
+## Define the Strata
+```{r}
+sheetName = "stsim_Stratum"
+myData = datasheet(myProject, sheetName)
+myData = addRow(myData, data.frame(Name = installName))
+saveDatasheet(myProject, myData, sheetName)
+```
+
 ## Define the State Class Types
+
 ```{r}
 sheetName = "stsim_StateLabelX"
 csvName = "LULC.csv"
@@ -158,6 +531,7 @@ saveDatasheet(myProject, myData, sheetName)
 ```
 
 ## Define the Transition types and groups
+
 ```{r}
 sheetName = "stsim_TransitionType"
 csvName = "Transition Type.csv"
@@ -181,6 +555,7 @@ saveDatasheet(myProject, myData, sheetName)
 ```
 
 ## Define Age types and groups
+
 ```{r}
 sheetName = "stsim_AgeType"
 csvName = "Age Types.csv"
@@ -194,6 +569,7 @@ saveDatasheet(myProject, myData, sheetName)
 ```
 
 ## Define State Attribute types and groups, Distribution types, and External Variable types.
+
 ```{r}
 sheetName = "stsim_AttributeGroup"
 csvName = "Attribute Group.csv"
@@ -217,6 +593,7 @@ saveDatasheet(myProject, myData, sheetName)
 ```
 
 ## Define Carbon Stock Flow types and groups
+
 ```{r}
 sheetName = "stsimsf_StockType"
 csvName = "Stock Type.csv"
@@ -246,12 +623,14 @@ saveDatasheet(myProject, myData, sheetName)
 
 
 
-# Load Stock Flow Model Parameters
+
+# Stock Flow Model 
 
 ## Load flow pathways diagrams
+
 ```{r}
 # Base Flows
-mySenario = scenario(myProject, "SF Flow Pathways [Base Flows]")
+myScenario = scenario(myProject, "SF Flow Pathways [Base Flows]")
 sheetName = "stsimsf_FlowPathwayDiagram"
 csvName = "Flow Pathway Diagram.csv"
 myData = read.csv(paste0(stockFlowPath, csvName))
@@ -274,13 +653,14 @@ csvName = "Flow Pathways - Event Flows.csv"
 myData = read.csv(paste0(stockFlowPath, csvName))
 saveDatasheet(myScenario, myData, sheetName)
 
-# Merge SF pathway diagrams into single subscenario
+# Merge SF pathway diagrams into single sub-scenario
 myScenario = scenario(myProject, "SF Flow Pathways")
 mergeDependencies(myScenario) = TRUE
 dependency(myScenario, dependency = c("SF Flow Pathways [Base Flows]", "SF Flow Pathways [Event Flows]"))
 ```
 
 ## Define Flow Multipliers sub-scenarios
+
 ```{r}
 mySenario = scenario(myProject, "SF Flow Multipliers [Forest]")
 sheetName = "stsimsf_FlowMultiplier"
@@ -323,8 +703,8 @@ dependency(myScenario, dependency = c("SF Flow Multipliers [Forest]",
                                       "SF Flow Multipliers [Scalar]"))
 ```
 
-
 ## Define Flow Order
+
 ```{r}
 mySenario = scenario(myProject, "SF Flow Order")
 sheetName = "stsimsf_FlowOrder"
@@ -334,6 +714,7 @@ saveDatasheet(myScenario, myData, sheetName)
 ```
 
 ## Define Flow Group and Stock Group Membership
+
 ```{r}
 mySenario = scenario(myProject, "SF Stock and Flow Group Membership")
 
@@ -349,6 +730,7 @@ saveDatasheet(myScenario, myData, sheetName)
 ```
 
 ## Define Stock and Flow Output Options and Filters
+
 ```{r}
 mySenario = scenario(myProject, "SF Output Options and Filters")
 
@@ -369,22 +751,26 @@ saveDatasheet(myScenario, myData, sheetName)
 ```
 
 ## Flow Spatial Multipliers
+
 This section requires downloading or acquiring historical climate data which is processed to create spatial flow multipliers for NPP and DOM respiration. For this script we use PRISM historical climate data for mean annual temperature and total annual precipitation.
 
-PRISM data can be downloaded here: https://prism.oregonstate.edu/recent/
+PRISM data can be downloaded here: <https://prism.oregonstate.edu/recent/>
 
 ### Load Study area mask file
+
 ```{r}
 studyAreaMask = installRaster
 ```
 
 ### Define folders and directories
+
 ```{r}
 inputClimDataPrism = paste0(rootPath, sourceDataPath, "Climate/prism/annual/")
 inputClimDataPrismNormals = paste0(rootPath, sourceDataPath, "Climate/prism/normals/")
 ```
 
 ### Get list of mean annual temperature and total annual precip rasters and then create raster stacks for each
+
 ```{r}
 tempList = list.files(paste0(inputClimDataPrism, "tmean/"), pattern = "*bil.bil$", recursive = T)
 precipList = list.files(paste0(inputClimDataPrism, "precip/"), pattern = "*bil.bil$", recursive = T)
@@ -394,12 +780,14 @@ precipStack = rast(paste0(inputClimDataPrism, "precip/", precipList))
 ```
 
 ### Calculate fMAP and fMAT for the raster stacks for forest
+
 ```{r}
 fMatForest <- 2540 / (1 + exp(1.584-0.0622*tempStack))
 fMapForest <- (0.551 * precipStack^1.055) / exp(0.000306 * precipStack)
 ```
 
 ### Calculate Forest and Non-Forest NPP
+
 ```{r}
 # Forest NPP
 forestNpp = Con(fMapForest < fMatForest, fMapForest, fMatForest)
@@ -411,6 +799,7 @@ names(nonForestNpp) = paste0("nonForestNpp_", seq(2000,2022))
 ```
 
 ### Read in the 30-year climate normals and calculate NPP for froest and Non-Forest
+
 ```{r}
 tempNormal = rast(paste0(inputClimDataPrismNormals, "/PRISM_tmean_30yr_normal_4kmM4_annual_bil/PRISM_tmean_30yr_normal_4kmM4_annual_bil.bil"))
 precipNormal = rast(paste0(inputClimDataPrismNormals, "/PRISM_ppt_30yr_normal_4kmM4_annual_bil/PRISM_ppt_30yr_normal_4kmM4_annual_bil.bil"))
@@ -423,6 +812,7 @@ nonForestNppNormal = 6116*(1-exp(-6.05*(10^-5)*precipNormal))
 ```
 
 ### Calculate the NPP Anomoly
+
 ```{r}
 forestNppAnomoly = forestNpp/forestNppNormal
 names(forestNppAnomoly) = paste0("forestNppAnom_", seq(2000,2022))
@@ -432,6 +822,7 @@ names(nonForestAnomoly) = paste0("nonForestNppAnom_", seq(2000,2022))
 ```
 
 ### Clip and reproject to California mask and extent
+
 ```{r}
 # Forest
 forestNppMult = terra::project(forestNppAnomoly, studyAreaMask)
@@ -449,6 +840,7 @@ plot(nonforestNppMult$nonForestNppMult_2022)
 ```
 
 ### Calculate the Q10 decomposition multipliers
+
 ```{r}
 q10FastRate = 2.65
 q10SlowRate = 2.00
@@ -470,6 +862,7 @@ plot(q10Fast$q10Fast_2022)
 ```
 
 ### Convert multipliers to Integers
+
 ```{r}
 forestNppMultInt = forestNppMult*100
 nonforestNppMultInt = nonforestNppMult*100
@@ -478,6 +871,7 @@ q10SlowInt = q10Slow*100
 ```
 
 ### Write ratser multipliers to disk
+
 ```{r}
 outDir = paste0(modelFullPath, "/Data/Flow Spatial Multipliers/")
 writeRaster(forestNppMultInt, filename=paste0(outDir,"Growth Forest/", names(forestNppMultInt), ".tif"), datatype="INT2U",overwrite=T)
@@ -487,6 +881,7 @@ writeRaster(q10SlowInt, filename=paste0(outDir,"Q10 Slow/", names(q10SlowInt), "
 ```
 
 ### Write data into LUCAS subscenarios
+
 ```{r}
 flowMultipliersPath = "Data/Flow Spatial Multipliers/"
 inputRasterDir = paste0(modelFullPath, "/", flowMultipliersPath)
@@ -536,139 +931,92 @@ dependency(myScenario, dependency = c("SF Flow Spatial Multipliers [PRISM Histor
 
 
 
-
 # State and Transition Model
 
 ## Initial Conditions
-This establishes a starting LULC map for the year 2001. This script requires the user to download the 2019 release of the National Land Cover Database which contains all years of NLCD spanning the period 2001-2019.
 
-### Read in each NLCD time period, crop, and reproject.
 ```{r}
-nlcdPath = "I:/GIS-Raster/Land Cover/NLCD/2019/NLCD_landcover_2019_release_all_files_20210604/"
-
-# NLCD 2001
-nlcd2001 = rast(paste0(nlcdPath, "nlcd_2001_land_cover_l48_20210604.img"))
-nlcd2001 = crop(nlcd2001, studyAreaMask)
-nlcd2001 = terra::project(nlcd2001, studyAreaMask, method="near")
-nlcd2001 = mask(nlcd2001, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2001)) %>% mutate(Value = seq(0,255))
-levels(nlcd2001) = nlcdTable
-activeCat(nlcd2001) = "Value"
-nlcd2001 = as.numeric(nlcd2001)
-
-# NLCD 2004
-nlcd2004 = rast(paste0(nlcdPath, "nlcd_2004_land_cover_l48_20210604.img"))
-nlcd2004 = crop(nlcd2004, studyAreaMask)
-nlcd2004 = terra::project(nlcd2004, studyAreaMask, method="near")
-nlcd2004 = mask(nlcd2004, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2004)) %>% mutate(Value = seq(0,255))
-levels(nlcd2004) = nlcdTable
-activeCat(nlcd2004) = "Value"
-nlcd2004 = as.numeric(nlcd2004)
-
-# NLCD 2006
-nlcd2006 = rast(paste0(nlcdPath, "nlcd_2006_land_cover_l48_20210604.img"))
-nlcd2006 = crop(nlcd2006, studyAreaMask)
-nlcd2006 = terra::project(nlcd2006, studyAreaMask, method="near")
-nlcd2006 = mask(nlcd2006, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2006)) %>% mutate(Value = seq(0,255))
-levels(nlcd2006) = nlcdTable
-activeCat(nlcd2006) = "Value"
-nlcd2006 = as.numeric(nlcd2006)
-
-# NLCD 2008
-nlcd2008 = rast(paste0(nlcdPath, "nlcd_2008_land_cover_l48_20210604.img"))
-nlcd2008 = crop(nlcd2008, studyAreaMask)
-nlcd2008 = terra::project(nlcd2008, studyAreaMask, method="near")
-nlcd2008 = mask(nlcd2008, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2008)) %>% mutate(Value = seq(0,255))
-levels(nlcd2008) = nlcdTable
-activeCat(nlcd2008) = "Value"
-nlcd2008 = as.numeric(nlcd2008)
-
-# NLCD 2011
-nlcd2011 = rast(paste0(nlcdPath, "nlcd_2011_land_cover_l48_20210604.img"))
-nlcd2011 = crop(nlcd2011, studyAreaMask)
-nlcd2011 = terra::project(nlcd2011, studyAreaMask, method="near")
-nlcd2011 = mask(nlcd2011, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2011)) %>% mutate(Value = seq(0,255))
-levels(nlcd2011) = nlcdTable
-activeCat(nlcd2011) = "Value"
-nlcd2011 = as.numeric(nlcd2011)
-
-# NLCD 2013
-nlcd2013 = rast(paste0(nlcdPath, "nlcd_2013_land_cover_l48_20210604.img"))
-nlcd2013 = crop(nlcd2013, studyAreaMask)
-nlcd2013 = terra::project(nlcd2013, studyAreaMask, method="near")
-nlcd2013 = mask(nlcd2013, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2013)) %>% mutate(Value = seq(0,255))
-levels(nlcd2013) = nlcdTable
-activeCat(nlcd2013) = "Value"
-nlcd2013 = as.numeric(nlcd2013)
-
-# NLCD 2016
-nlcd2016 = rast(paste0(nlcdPath, "nlcd_2016_land_cover_l48_20210604.img"))
-nlcd2016 = crop(nlcd2016, studyAreaMask)
-nlcd2016 = terra::project(nlcd2016, studyAreaMask, method="near")
-nlcd2016 = mask(nlcd2016, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2016)) %>% mutate(Value = seq(0,255))
-levels(nlcd2016) = nlcdTable
-activeCat(nlcd2016) = "Value"
-nlcd2016 = as.numeric(nlcd2016)
-
-# NLCD 2019
-nlcd2019 = rast(paste0(nlcdPath, "nlcd_2019_land_cover_l48_20210604.img"))
-nlcd2019 = crop(nlcd2019, studyAreaMask)
-nlcd2019 = terra::project(nlcd2019, studyAreaMask, method="near")
-nlcd2019 = mask(nlcd2019, studyAreaMask)
-
-nlcdTable = data.frame(cats(nlcd2019)) %>% mutate(Value = seq(0,255))
-levels(nlcd2019) = nlcdTable
-activeCat(nlcd2019) = "Value"
-nlcd2019 = as.numeric(nlcd2019)
-
+myScenario <- scenario(myProject, scenario = "Initial Conditions [Spatial]")
+sheetName = "stsim_InitialConditionsSpatial"
+myData = datasheet(myScenario, sheetName)
+myData = data.frame(StratumFileName = paste0(modelFullPath, "/Data/Initial Conditions/", "PrimaryStrata.tif"),
+                    SecondaryStratumFileName = paste0(modelFullPath, "/Data/Initial Conditions/", "SecondaryStrata.tif"),
+                    StateClassFileName = paste0(modelFullPath, "/Data/Initial Conditions/", "State Class.tif"),
+                    AgeFileName = paste0(modelFullPath, "/Data/Initial Conditions/", "Stand Age.tif"))
+saveDatasheet(myScenario, myData, sheetName)
 ```
 
-### Create maximum forest extent raster from all NLCD time periods
-```{r}
-m = c(0,39,0, 40,49,1, 50,Inf,0)
-rclmat <- matrix(m, ncol=3, byrow=TRUE)
-
-nlcdForestStack = c(nlcd2001, nlcd2004, nlcd2006, nlcd2008, nlcd2011, nlcd2013, nlcd2016, nlcd2019)
-names(nlcdForestStack) = c("nlcd2001", "nlcd2004", "nlcd2006", "nlcd2008", "nlcd2011", "nlcd2013", "nlcd2016", "nlcd2019")
-nlcdForestStack = classify(nlcdForestStack, rclmat, others=NA)
-
-m = c(1,Inf,1)
-rclmat <- matrix(m, ncol=3, byrow=TRUE)
-
-nlcdForest = sum(nlcdForestStack)
-nlcdForest = classify(nlcdForest, rclmat)
-plot(nlcdForest)
-```
-
-### Replace NLCD2001 non forest cells with maximum forest extent
-```{r}
-nlcd2001Update = Con(nlcdForest==1, 41, nlcd2001)
-plot(nlcd2001Update)
-plot(nlcd2001)
-writeRaster(nlcd2001Update, paste0(installPath, "data/source-data/nlcd/", "nlcd_2001_land_cover_max_forest", ".tif"), format="GTiff", overwrite=T)
-```
-
-### Use TreeMap2014 to create a Forest Type-Group map
-```{r}
-forestTypeGroup = read_csv(paste0(sourceDataPath, "Forest Type-Group Crosswalk.csv"))
-stateClassTable = read_csv(paste0(definitionsPath, "State Class.csv"))
-
-```
 
 ## Transition Pathways
+
+```{r}
+transitionPathwaysPath = paste0(rootPath, dataPath, "Transition Pathways/")
+
+# Urbanization
+myScenario <- scenario(myProject, scenario = "Transition Pathways [Urbanization]")
+sheetName = "stsim_DeterministicTransition"
+csvName = "States.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+sheetName = "stsim_Transition"
+csvName = "Transitions - Urbanization.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Intensification
+myScenario <- scenario(myProject, scenario = "Transition Pathways [Intensification]")
+sheetName = "stsim_DeterministicTransition"
+csvName = "States.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+sheetName = "stsim_Transition"
+csvName = "Transitions - Intensification.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Harvest
+myScenario <- scenario(myProject, scenario = "Transition Pathways [Harvest]")
+sheetName = "stsim_DeterministicTransition"
+csvName = "States.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+sheetName = "stsim_Transition"
+csvName = "Transitions - Harvest.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Fire
+myScenario <- scenario(myProject, scenario = "Transition Pathways [Fire]")
+sheetName = "stsim_DeterministicTransition"
+csvName = "States.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+sheetName = "stsim_Transition"
+csvName = "Transitions - Fire.csv"
+myData = read.csv(paste0(transitionPathwaysPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+```
+
+## Adjacency
+
+```{r}
+
+adjacencyPath = paste0(rootPath, dataPath, "Adjacency/")
+myScenario <- scenario(myProject, scenario = "Adjacency")
+
+# Adjacency Settings
+sheetName = "stsim_TransitionAdjacencySetting"
+csvName = "Transition Adjacency Setting.csv"
+myData = read.csv(paste0(adjacencyPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+
+# Adjacency Multipliers
+sheetName = "stsim_TransitionAdjacencyMultiplier"
+csvName = "Transition Adjacency Multipliers.csv"
+myData = read.csv(paste0(adjacencyPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+```
 
 ## Distributions
 
@@ -680,42 +1028,408 @@ stateClassTable = read_csv(paste0(definitionsPath, "State Class.csv"))
 
 ## Transition Spatial Multipliers
 
+## Urbanization
+
+```{r}
+# Reclassify NLCD rasters to isolate Developed only pixels
+m = c(0,19,0,
+      20,29,1,
+      30,Inf,0)
+rclmat = matrix(m, ncol=3, byrow = T)
+nlcdStackDeveloped = classify(nlcdStack, rclmat, include.lowest=T)
+
+# Calculate change in developed for each interval 
+nlcdDevChangep1 = nlcdStackDeveloped$NLCD_2001 + nlcdStackDeveloped$NLCD_2004
+nlcdDevChangep2 = nlcdStackDeveloped$NLCD_2004 + nlcdStackDeveloped$NLCD_2006
+nlcdDevChangep3 = nlcdStackDeveloped$NLCD_2006 + nlcdStackDeveloped$NLCD_2008
+nlcdDevChangep4 = nlcdStackDeveloped$NLCD_2008 + nlcdStackDeveloped$NLCD_2011
+nlcdDevChangep5 = nlcdStackDeveloped$NLCD_2011 + nlcdStackDeveloped$NLCD_2013
+nlcdDevChangep6 = nlcdStackDeveloped$NLCD_2013 + nlcdStackDeveloped$NLCD_2016
+nlcdDevChangep7 = nlcdStackDeveloped$NLCD_2016 + nlcdStackDeveloped$NLCD_2019
+nlcdDevChangep8 = nlcdStackDeveloped$NLCD_2019 + nlcdStackDeveloped$NLCD_2021
+
+# Stack the change rasters and reclassify to isolate only change pixels
+nlcdStackDeveloped = c(nlcdDevChangep1, nlcdDevChangep2, nlcdDevChangep3, nlcdDevChangep4,
+                   nlcdDevChangep5, nlcdDevChangep6, nlcdDevChangep7, nlcdDevChangep8)
+
+m = c(0,0.5,0,
+      0.6,1.5,1,
+      1.6,Inf,0)
+rclmat = matrix(m, ncol=3, byrow = T)
+nlcdStackDeveloped = classify(nlcdStackDeveloped, rclmat, include.lowest=T)
+names(nlcdStackDeveloped) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+
+
+# Create Urbanization Type Spatial Multipliers
+devHigh2021 = classify(nlcd2021, matrix(c(-Inf,23.5,0, 23.6,24.5,1, 24.6,Inf,0), ncol = 3, byrow = T))
+devMed2021 = classify(nlcd2021, matrix(c(-Inf,22.5,0, 22.6,23.5,1, 23.6,Inf,0), ncol = 3, byrow = T))
+devLow2021 = classify(nlcd2021, matrix(c(-Inf,21.5,0, 21.6,22.5,1, 22.6,Inf,0), ncol = 3, byrow = T))
+devOpen2021 = classify(nlcd2021, matrix(c(-Inf,20.5,0, 20.6,21.5,1, 21.6,Inf,0), ncol = 3, byrow = T))
+
+names(devHigh2021) = "NLCD_2021_High_Intentisy"
+names(devMed2021) = "NLCD_2021_Med_Intentisy"
+names(devLow2021) = "NLCD_2021_Low_Intentisy"
+names(devOpen2021) = "NLCD_2021_Open_Intentisy"
+
+
+# Write Spatial Multipliers to Disk
+transitionType = "Urbanization"
+dir.create(paste0(modelFullPath, "/Data/Transition Spatial Multipliers"))
+spatialMultipliersPath = paste0(modelFullPath, "/Data/Transition Spatial Multipliers/")
+
+writeRaster(nlcdStackDeveloped, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_", names(nlcdStackDeveloped), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+# Write Spatial Multipliers Types to Disk
+writeRaster(devHigh2021, paste0(spatialMultipliersPath, transitionType, "/", names(devHigh2021), ".tif"), overwrite=T)
+writeRaster(devMed2021, paste0(spatialMultipliersPath, transitionType, "/", names(devMed2021), ".tif"), overwrite=T)
+writeRaster(devLow2021, paste0(spatialMultipliersPath, transitionType, "/", names(devLow2021), ".tif"), overwrite=T)
+writeRaster(devOpen2021, paste0(spatialMultipliersPath, transitionType, "/", names(devOpen2021), ".tif"), overwrite=T)
+
+
+##############
+# Add Sub Scenarios to Model
+##############
+
+# Spatial Multipliers
+myScenario = scenario(myProject, scenario = "Spatial Multipliers [Urbanization]")
+
+urbanizationRasterList = paste0(spatialMultipliersPath, "Urbanization/", 
+                                list.files(paste0(spatialMultipliersPath, "/Urbanization"), pattern="*.tif$"))
+
+sheetName = "stsim_TransitionSpatialMultiplier"
+# Type
+mySheet1 = data.frame(Timestep = 2002,
+                     TransitionGroupID = c("Urbanization: High [Type]",
+                                           "Urbanization: Low [Type]",
+                                           "Urbanization: Medium [Type]",
+                                           "Urbanization: Open [Type]"),
+                     MultiplierFileName = urbanizationRasterList[1:4])
+# Total
+mySheet2 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = c("Urbanization"),
+                     MultiplierFileName = urbanizationRasterList[5:12])
+# Combine
+mySheet = bind_rows(mySheetType, mySheetTotal)
+saveDatasheet(myScenario, mySheet, sheetName)
+
+
+
+###############
+# Calculate Historical Distribution area
+###############
+
+# Summarize area by timestep
+devChangeTable = data.frame(zonal(nlcdStackDeveloped, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+# Create final Distributions table
+distributionUrbanization = data.frame(StratumID = installName,
+                                      DistributionTypeID = "Urbanization",
+                                      ExternalVariableTypeID = "Urbanization",
+                                      ExternalVariableMin = devChangeTable$From+1,
+                                      ExternalVariableMax = devChangeTable$To,
+                                      Value = devChangeTable$AmountYr)
+
+# Write csv to disk
+dir.create(paste0(modelFullPath, "/Data/Distributions"))
+distributionsPath = paste0(modelFullPath, "/Data/Distributions/")
+write_csv(distributionUrbanization, paste0(distributionsPath, "Distributions - Urbanization.csv"))
+
+# Add Distributions model sub-scenario
+myScenario <- scenario(myProject, scenario = "Distributions [Urbanization]")
+sheetName <- "stsim_DistributionValue"
+csvName = "Distributions - Urbanization.csv"
+myData = read.csv(paste0(distributionsPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+```
+
+
+## Intensification
+
+```{r}
+devOpen = classify(nlcdStack, matrix(c(0,20.5,0, 20.6,21.5,1, 21.6,Inf,0), ncol = 3, byrow = T))
+devLow =  classify(nlcdStack, matrix(c(0,21.5,0, 21.6,22.5,1, 22.6,Inf,0), ncol = 3, byrow = T))
+devMed = classify(nlcdStack, matrix(c(0,22.5,0, 22.6,23.5,1, 23.6,Inf,0), ncol = 3, byrow = T))
+devHigh = classify(nlcdStack, matrix(c(0,23.5,0, 23.6,24.5,1, 24.6,Inf,0), ncol = 3, byrow = T))
+
+# Open to Low Intensity
+openToLow_2001_2004 = Con(devOpen$NLCD_2001==1 & devLow$NLCD_2004==1, 1, 0)
+openToLow_2004_2006 = Con(devOpen$NLCD_2004==1 & devLow$NLCD_2006==1, 1, 0)
+openToLow_2006_2008 = Con(devOpen$NLCD_2006==1 & devLow$NLCD_2008==1, 1, 0)
+openToLow_2008_2011 = Con(devOpen$NLCD_2008==1 & devLow$NLCD_2011==1, 1, 0)
+openToLow_2011_2013 = Con(devOpen$NLCD_2011==1 & devLow$NLCD_2013==1, 1, 0)
+openToLow_2013_2016 = Con(devOpen$NLCD_2013==1 & devLow$NLCD_2016==1, 1, 0)
+openToLow_2016_2019 = Con(devOpen$NLCD_2016==1 & devLow$NLCD_2019==1, 1, 0)
+openToLow_2019_2021 = Con(devOpen$NLCD_2019==1 & devLow$NLCD_2021==1, 1, 0)
+
+openToLowStack = c(openToLow_2001_2004, openToLow_2004_2006, openToLow_2006_2008, openToLow_2008_2011, openToLow_2011_2013, openToLow_2013_2016, openToLow_2016_2019, openToLow_2019_2021)
+names(openToLowStack) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+freq(openToLowStack)
+
+# Open to Medium Intensity
+openToMed_2001_2004 = Con(devOpen$NLCD_2001==1 & devMed$NLCD_2004==1, 1, 0)
+openToMed_2004_2006 = Con(devOpen$NLCD_2004==1 & devMed$NLCD_2006==1, 1, 0)
+openToMed_2006_2008 = Con(devOpen$NLCD_2006==1 & devMed$NLCD_2008==1, 1, 0)
+openToMed_2008_2011 = Con(devOpen$NLCD_2008==1 & devMed$NLCD_2011==1, 1, 0)
+openToMed_2011_2013 = Con(devOpen$NLCD_2011==1 & devMed$NLCD_2013==1, 1, 0)
+openToMed_2013_2016 = Con(devOpen$NLCD_2013==1 & devMed$NLCD_2016==1, 1, 0)
+openToMed_2016_2019 = Con(devOpen$NLCD_2016==1 & devMed$NLCD_2019==1, 1, 0)
+openToMed_2019_2021 = Con(devOpen$NLCD_2019==1 & devMed$NLCD_2021==1, 1, 0)
+
+openToMedStack = c(openToMed_2001_2004, openToMed_2004_2006, openToMed_2006_2008, openToMed_2008_2011, openToMed_2011_2013, openToMed_2013_2016, openToMed_2016_2019, openToMed_2019_2021)
+names(openToMedStack) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+freq(openToMedStack)
+
+# Open to High Intensity
+openToHigh_2001_2004 = Con(devOpen$NLCD_2001==1 & devHigh$NLCD_2004==1, 1, 0)
+openToHigh_2004_2006 = Con(devOpen$NLCD_2004==1 & devHigh$NLCD_2006==1, 1, 0)
+openToHigh_2006_2008 = Con(devOpen$NLCD_2006==1 & devHigh$NLCD_2008==1, 1, 0)
+openToHigh_2008_2011 = Con(devOpen$NLCD_2008==1 & devHigh$NLCD_2011==1, 1, 0)
+openToHigh_2011_2013 = Con(devOpen$NLCD_2011==1 & devHigh$NLCD_2013==1, 1, 0)
+openToHigh_2013_2016 = Con(devOpen$NLCD_2013==1 & devHigh$NLCD_2016==1, 1, 0)
+openToHigh_2016_2019 = Con(devOpen$NLCD_2016==1 & devHigh$NLCD_2019==1, 1, 0)
+openToHigh_2019_2021 = Con(devOpen$NLCD_2019==1 & devHigh$NLCD_2021==1, 1, 0)
+
+openToHighStack = c(openToHigh_2001_2004, openToHigh_2004_2006, openToHigh_2006_2008, openToHigh_2008_2011, openToHigh_2011_2013, openToHigh_2013_2016, openToHigh_2016_2019, openToHigh_2019_2021)
+names(openToHighStack) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+freq(openToHighStack)
+
+# Low to Medium Intensity
+LowToMed_2001_2004 = Con(devLow$NLCD_2001==1 & devMed$NLCD_2004==1, 1, 0)
+LowToMed_2004_2006 = Con(devLow$NLCD_2004==1 & devMed$NLCD_2006==1, 1, 0)
+LowToMed_2006_2008 = Con(devLow$NLCD_2006==1 & devMed$NLCD_2008==1, 1, 0)
+LowToMed_2008_2011 = Con(devLow$NLCD_2008==1 & devMed$NLCD_2011==1, 1, 0)
+LowToMed_2011_2013 = Con(devLow$NLCD_2011==1 & devMed$NLCD_2013==1, 1, 0)
+LowToMed_2013_2016 = Con(devLow$NLCD_2013==1 & devMed$NLCD_2016==1, 1, 0)
+LowToMed_2016_2019 = Con(devLow$NLCD_2016==1 & devMed$NLCD_2019==1, 1, 0)
+LowToMed_2019_2021 = Con(devLow$NLCD_2019==1 & devMed$NLCD_2021==1, 1, 0)
+
+LowToMedStack = c(LowToMed_2001_2004, LowToMed_2004_2006, LowToMed_2006_2008, LowToMed_2008_2011, LowToMed_2011_2013, LowToMed_2013_2016, LowToMed_2016_2019, LowToMed_2019_2021)
+names(LowToMedStack) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+freq(LowToMedStack)
+
+# Low to High Intensity
+LowToHigh_2001_2004 = Con(devLow$NLCD_2001==1 & devHigh$NLCD_2004==1, 1, 0)
+LowToHigh_2004_2006 = Con(devLow$NLCD_2004==1 & devHigh$NLCD_2006==1, 1, 0)
+LowToHigh_2006_2008 = Con(devLow$NLCD_2006==1 & devHigh$NLCD_2008==1, 1, 0)
+LowToHigh_2008_2011 = Con(devLow$NLCD_2008==1 & devHigh$NLCD_2011==1, 1, 0)
+LowToHigh_2011_2013 = Con(devLow$NLCD_2011==1 & devHigh$NLCD_2013==1, 1, 0)
+LowToHigh_2013_2016 = Con(devLow$NLCD_2013==1 & devHigh$NLCD_2016==1, 1, 0)
+LowToHigh_2016_2019 = Con(devLow$NLCD_2016==1 & devHigh$NLCD_2019==1, 1, 0)
+LowToHigh_2019_2021 = Con(devLow$NLCD_2019==1 & devHigh$NLCD_2021==1, 1, 0)
+
+LowToHighStack = c(LowToHigh_2001_2004, LowToHigh_2004_2006, LowToHigh_2006_2008, LowToHigh_2008_2011, LowToHigh_2011_2013, LowToHigh_2013_2016, LowToHigh_2016_2019, LowToHigh_2019_2021)
+names(LowToHighStack) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+freq(LowToHighStack)
+
+# Medium to High Intensity
+MedToHigh_2001_2004 = Con(devMed$NLCD_2001==1 & devHigh$NLCD_2004==1, 1, 0)
+MedToHigh_2004_2006 = Con(devMed$NLCD_2004==1 & devHigh$NLCD_2006==1, 1, 0)
+MedToHigh_2006_2008 = Con(devMed$NLCD_2006==1 & devHigh$NLCD_2008==1, 1, 0)
+MedToHigh_2008_2011 = Con(devMed$NLCD_2008==1 & devHigh$NLCD_2011==1, 1, 0)
+MedToHigh_2011_2013 = Con(devMed$NLCD_2011==1 & devHigh$NLCD_2013==1, 1, 0)
+MedToHigh_2013_2016 = Con(devMed$NLCD_2013==1 & devHigh$NLCD_2016==1, 1, 0)
+MedToHigh_2016_2019 = Con(devMed$NLCD_2016==1 & devHigh$NLCD_2019==1, 1, 0)
+MedToHigh_2019_2021 = Con(devMed$NLCD_2019==1 & devHigh$NLCD_2021==1, 1, 0)
+
+MedToHighStack = c(MedToHigh_2001_2004, MedToHigh_2004_2006, MedToHigh_2006_2008, MedToHigh_2008_2011, MedToHigh_2011_2013, MedToHigh_2013_2016, MedToHigh_2016_2019, MedToHigh_2019_2021)
+names(MedToHighStack) = c("p2001to2004", "p2004to2006", "p2006to2008", "p2008to2011", "p2011to2013", "p2013to2016", "p2016to2019", "p2019to2021")
+freq(MedToHighStack)
+
+
+# Write Spatial Multipliers to Disk
+transitionType = "Intensification"
+dir.create(paste0(modelFullPath, "/Data/Transition Spatial Multipliers/", transitionType))
+spatialMultipliersPath = paste0(modelFullPath, "/Data/Transition Spatial Multipliers/")
+
+writeRaster(openToLowStack, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_Open_to_Low_", names(openToLowStack), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+writeRaster(openToMedStack, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_Open_to_Med_", names(openToMedStack), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+writeRaster(openToHighStack, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_Open_to_High_", names(openToHighStack), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+writeRaster(LowToMedStack, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_Low_to_Med_", names(LowToMedStack), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+writeRaster(LowToHighStack, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_Low_to_High_", names(LowToHighStack), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+writeRaster(MedToHighStack, paste0(spatialMultipliersPath, transitionType, "/", transitionType, "_Med_to_High_", names(MedToHighStack), ".tif"),
+            overwrite=T, datatype="INT1U")
+
+
+# Add sub-scenario to model
+myScenario = scenario(myProject, scenario = "Spatial Multipliers [Intensification]")
+intensificationRasterList = paste0(spatialMultipliersPath, "Intensification/", list.files(paste0(spatialMultipliersPath, "/Intensification"), pattern="*.tif$"))
+sheetName = "stsim_TransitionSpatialMultiplier"
+
+# Type
+mySheet1 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = "Intensification: Open to Low [Type]",
+                     MultiplierFileName = str_subset(intensificationRasterList, "Open_to_Low"))
+
+# Type
+mySheet2 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = "Intensification: Open to Medium [Type]",
+                     MultiplierFileName = str_subset(intensificationRasterList, "Open_to_Med"))
+
+# Type
+mySheet3 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = "Intensification: Open to High [Type]",
+                     MultiplierFileName = str_subset(intensificationRasterList, "Open_to_High"))
+
+# Type
+mySheet4 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = "Intensification: Low to Medium [Type]",
+                     MultiplierFileName = str_subset(intensificationRasterList, "Low_to_Med"))
+
+# Type
+mySheet5 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = "Intensification: Low to High [Type]",
+                     MultiplierFileName = str_subset(intensificationRasterList, "Low_to_High"))
+
+# Type
+mySheet6 = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                     TransitionGroupID = "Intensification: Medium to High [Type]",
+                     MultiplierFileName = str_subset(intensificationRasterList, "Med_to_High"))
+
+# Combine sheets
+mySheet = bind_rows(mySheet1, mySheet2, mySheet3, mySheet4, mySheet5, mySheet6)
+saveDatasheet(myScenario, mySheet, sheetName)
+
+
+
+###############
+# Calculate Transition Targets
+###############
+
+# Open to Low
+openToLowTable = data.frame(zonal(openToLowStack, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+openToLowTable = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                            TransitionGroupID = "Intensification: Open to Low [Type]",
+                            Amount = openToLowTable$AmountYr)
+
+# Open to Med
+openToMedTable = data.frame(zonal(openToMedStack, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+openToMedTable = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                            TransitionGroupID = "Intensification: Open to Medium [Type]",
+                            Amount = openToMedTable$AmountYr)
+
+# Open to High
+openToHighTable = data.frame(zonal(openToHighStack, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+openToHighTable = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                            TransitionGroupID = "Intensification: Open to High [Type]",
+                            Amount = openToHighTable$AmountYr)
+
+# Low to Med
+lowToMedTable = data.frame(zonal(LowToMedStack, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+lowToMedTable = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                            TransitionGroupID = "Intensification: Low to Medium [Type]",
+                            Amount = lowToMedTable$AmountYr)
+
+# Low to High
+lowToHighTable = data.frame(zonal(LowToHighStack, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+lowToHighTable = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                            TransitionGroupID = "Intensification: Low to High [Type]",
+                            Amount = lowToHighTable$AmountYr)
+
+# Med to High
+medToHighTable = data.frame(zonal(MedToHighStack, installRaster, "sum")) %>%
+  pivot_longer(-installID, names_to = "Interval", values_to = "NumPix") %>%
+  separate(Interval, sep = "to", into = c("From", "To")) %>%
+  mutate(From = as.integer(str_remove(From, pattern="p")),
+         To = as.integer(To),
+         Length = To-From,
+         AreaHa = NumPix*0.09,
+         AmountYr = AreaHa/Length)
+
+medToHighTable = data.frame(Timestep = c(2002,2005,2007,2009,2012,2014,2017,2020),
+                            TransitionGroupID = "Intensification: Medium to High [Type]",
+                            Amount = medToHighTable$AmountYr)
+
+intensificationTargets = bind_rows(openToLowTable, openToMedTable, openToHighTable, lowToMedTable, lowToHighTable, medToHighTable)
+
+# Plot the results
+ggplot(intensificationTargets, aes(x=Timestep, y=Amount, color=TransitionGroupID)) +
+  geom_line() +
+  geom_point()
+
+
+# Write csv to disk
+dir.create(paste0(modelFullPath, "/Data/Transition Targets"))
+transitionTargetsPath = paste0(modelFullPath, "/Data/Transition Targets/")
+write_csv(intensificationTargets, paste0(transitionTargetsPath, "Transition Targets - Intensification"))
+
+# Add Intensification Targets sub-scenario to model
+myScenario <- scenario(myProject, scenario = "Transition Targets [Intensification]")
+sheetName <- "stsim_TransitionTarget"
+csvName = "Transition Targets - Intensification"
+myData = read.csv(paste0(transitionTargetsPath, csvName))
+saveDatasheet(myScenario, myData, sheetName)
+```
+
+
+## Forest Harvest
+
+
+
+
+
+
+
+
+
+
 ## Transition Size
 
-## Adjacency
-
 ## State Attributes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

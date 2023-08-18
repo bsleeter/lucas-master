@@ -9,7 +9,7 @@ Biomass: Fine Root,
 Biomass: Foliage,
 Biomass: Merchantable,
 Biomass: Other Wood,"Carbon in branches, sapling and submerchantable stem wood (including associated bark), and tops and stumps of merchantable trees (including the associated bark)"
-Deep Soil,
+DOM: Deep Soil,
 DOM: Aboveground Fast,
 DOM: Aboveground Medium,
 DOM: Aboveground Slow,
@@ -20,3 +20,5 @@ DOM: Belowground Very Fast,
 DOM: Snag Branch,Carbon in DOM with input from the Merchantable biomass pool; default decay rate is half the default decay rate for the medium pool to the stem snag pool
 DOM: Snag Stem,Carbon in DOM with input from the Merchantable biomass pool; default decay rate is half the default decay rate for the medium pool to the stem snag pool
 Forestry Sector,Used only for transition triggered flows
+DOM: Black Carbon,Not used
+DOM: Peat,
