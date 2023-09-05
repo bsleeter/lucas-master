@@ -1,0 +1,12 @@
+Iteration,Timestep,StratumID,SecondaryStratumID,TertiaryStratumID,TransitionGroupID,Amount,DistributionType,DistributionFrequencyID,DistributionSD,DistributionMin,DistributionMax
+,2002,,,,Ag Contraction,0,,,,,
+,2002,,,,Ag Expansion,0,,,,,
+,2002,,,,Forest Harvest: Forest Selection [Type],0,,,,,
+,2002,,,,Forest Harvest: Forest Selection 20% [Type],0,,,,,
+,2002,,,,Forest Harvest: Forest Selection 85% [Type],0,,,,,
+,2002,,,,Forest Harvest: Salvage Logging [Type],0,,,,,
+,2002,,,,Urbanization,,Urbanization,,,,
+,2016,,,,Insect: High Severity [Type],0,,,,,
+,2016,,,,Insect: Low Severity [Type],0,,,,,
+,2016,,,,Insect: Medium Severity [Type],0,,,,,
+,2021,,,,Fire,,Fire,,,,

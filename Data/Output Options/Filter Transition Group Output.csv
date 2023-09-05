@@ -9,7 +9,9 @@ Ag Contraction: Elm/Ash/Cottonwood Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Exotic Hardwoods Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Exotic Softwoods Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Fir/Spruce/Mountain Hemlock Group [Type],Yes,No,No,No,No,No,No,No
-Ag Contraction: Grassland [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Grassland Annual [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Grassland Irrigated Perennial [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Grassland Natural Perennial [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Hemlock/Sitka Spruce Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Loblolly/Shortleaf Pine Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Lodgepole Pine Group [Type],Yes,No,No,No,No,No,No,No
@@ -23,15 +25,22 @@ Ag Contraction: Other Western Softwood Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Pinyon/Juniper Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Ponderosa Pine Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Redwood Group [Type],Yes,No,No,No,No,No,No,No
-Ag Contraction: Shrubland [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Shrubland Chaparral [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Shrubland Invaded Sage Steppe [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Shrubland Native Sage Steppe [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Shrubland Non-sage [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Shrubland Post Fire Shrub [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Shrubland Sage [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Spruce/Fir Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Tanoak/Laurel Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Tropical Hardwoods Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Western Larch Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Western Oak Group [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: Western White Pine Group [Type],Yes,No,No,No,No,No,No,No
-Ag Contraction: Wetland Herbaceous [Type],Yes,No,No,No,No,No,No,No
-Ag Contraction: Wetland Woody [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Wetland Estuarine Emergent [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Wetland Estuarine Forested [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Wetland Palustrine Emergent [Type],Yes,No,No,No,No,No,No,No
+Ag Contraction: Wetland Palustrine Forested [Type],Yes,No,No,No,No,No,No,No
 Ag Contraction: White/Red/Jack Pine Group [Type],Yes,No,No,No,No,No,No,No
 Ag Expansion,Yes,No,No,Yes,No,No,Yes,No
 Ag Expansion: Cropland [Type],Yes,No,No,No,No,No,No,No
@@ -41,8 +50,8 @@ Fire: High Severity [Type],Yes,No,No,No,No,No,No,No
 Fire: Low Severity [Type],Yes,No,No,No,No,No,No,No
 Fire: Medium Severity [Type],Yes,No,No,No,No,No,No,No
 Forest Harvest,Yes,No,No,Yes,No,No,Yes,No
-Forest Harvest: Forest Clearcut [Type],Yes,No,No,No,No,No,No,No
-Forest Harvest: Forest Selection [Type],Yes,No,No,No,No,No,No,No
+Forest Harvest: Forest Clearcut [Type],Yes,No,No,Yes,No,No,No,No
+Forest Harvest: Forest Selection [Type],Yes,No,No,Yes,No,No,No,No
 Forest Harvest: Forest Selection 20% [Type],Yes,No,No,No,No,No,No,No
 Forest Harvest: Forest Selection 85% [Type],Yes,No,No,No,No,No,No,No
 Forest Harvest: Salvage Logging [Type],Yes,No,No,No,No,No,No,No

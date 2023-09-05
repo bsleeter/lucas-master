@@ -1,0 +1,10 @@
+Iteration,Timestep,StratumID,SecondaryStratumID,TertiaryStratumID,StateClassID,StateAttributeTypeID,AgeMin,AgeMax,TSTGroupID,TSTMin,TSTMax,Value,DistributionType,DistributionFrequencyID,DistributionSD,DistributionMin,DistributionMax
+,,,,,Grassland: Annual,Net Growth,,,,,,0.95,,,,,
+,,,,,Grassland: Natural Perennial,Net Growth,,,,,,2.31,,,,,
+,,,,,Grassland: Irrigated Perennial,Net Growth,,,,,,9.19,,,,,
+,,,,,Shrubland: Native Sage Steppe,Net Growth,,,,,,0.97,,,,,
+,,,,,Shrubland: Invaded Sage Steppe,Net Growth,,,,,,0.97,,,,,
+,,,,,Shrubland: Sage,Net Growth,,,,,,0.99,,,,,
+,,,,,Shrubland: Non-sage,Net Growth,,,,,,0.97,,,,,
+,,,,,Shrubland: Chaparral,Net Growth,,,,,,3.84,,,,,
+,,,,,Shrubland: Post Fire Shrub,Net Growth,,,,,,0.97,,,,,

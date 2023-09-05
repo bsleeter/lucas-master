@@ -1,0 +1,4 @@
+StratumID,DistributionTypeID,ExternalVariableTypeID,ExternalVariableMin,ExternalVariableMax,Value
+VANDENBERG MAIN BASE,Fire: High Severity,Fire: High Severity,1984,2021,0.12307722869307836
+VANDENBERG MAIN BASE,Fire: Low Severity,Fire: Low Severity,1984,2021,0.5953356862381555
+VANDENBERG MAIN BASE,Fire: Medium Severity,Fire: Medium Severity,1984,2021,0.2815870850687662

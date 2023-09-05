@@ -1,242 +1,312 @@
 FlowTypeID,FlowGroupID,Value
-Biomass Turnover: Coarse Roots -> AG Fast,Biomass Turnover: Total,1.0000
-Biomass Turnover: Coarse Roots -> BG Fast,Biomass Turnover: Total,1.0000
-Biomass Turnover: Fine Roots -> AG Very Fast,Biomass Turnover: Total,1.0000
-Biomass Turnover: Fine Roots -> BG Very Fast,Biomass Turnover: Total,1.0000
-Biomass Turnover: Foliage -> AG Very Fast,Biomass Turnover: Total,1.0000
-Biomass Turnover: Merchantable -> Snag Stems,Biomass Turnover: Total,1.0000
-Biomass Turnover: Other Wood -> AG Fast,Biomass Turnover: Total,1.0000
-Biomass Turnover: Other Wood -> Snag Branches,Biomass Turnover: Total,1.0000
-Decay: AG Fast -> AG Slow,Decay: Total,1.0000
-Decay: AG Fast -> AG Slow,Q10 Slow Flows,1.0000
-Decay: AG Medium -> AG Slow,Decay: Total,1.0000
-Decay: AG Medium -> AG Slow,Q10 Slow Flows,1.0000
-Decay: AG Very Fast -> AG Slow,Decay: Total,1.0000
-Decay: AG Very Fast -> AG Slow,Q10 Fast Flows,1.0000
-Decay: BG Fast -> BG Slow,Decay: Total,1.0000
-Decay: BG Fast -> BG Slow,Q10 Slow Flows,1.0000
-Decay: BG Very Fast -> BG Slow,Decay: Total,1.0000
-Decay: BG Very Fast -> BG Slow,Q10 Slow Flows,1.0000
-Decay: Snag Branch -> AG Slow,Decay: Total,1.0000
-Decay: Snag Branch -> AG Slow,Q10 Slow Flows,1.0000
-Decay: Snag Stem -> AG Slow,Decay: Total,1.0000
-Decay: Snag Stem -> AG Slow,Q10 Slow Flows,1.0000
-Emission: AG Fast -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: AG Fast -> Atmosphere,Emission: Total Rh,1.0000
-Emission: AG Fast -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: AG Fast -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: AG Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: AG Fast -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: AG Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: AG Fast -> Atmosphere,Q10 Slow Flows,1.0000
-Emission: AG Medium -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: AG Medium -> Atmosphere,Emission: Total Rh,1.0000
-Emission: AG Medium -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: AG Medium -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: AG Medium -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: AG Medium -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: AG Medium -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: AG Medium -> Atmosphere,Q10 Slow Flows,1.0000
-Emission: AG Slow -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: AG Slow -> Atmosphere,Emission: Total Rh,1.0000
-Emission: AG Slow -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: AG Slow -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: AG Slow -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: AG Slow -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: AG Slow -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: AG Slow -> Atmosphere,Q10 Fast Flows,1.0000
-Emission: AG Very Fast -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: AG Very Fast -> Atmosphere,Emission: Total Rh,1.0000
-Emission: AG Very Fast -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: AG Very Fast -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: AG Very Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: AG Very Fast -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: AG Very Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: AG Very Fast -> Atmosphere,Q10 Fast Flows,1.0000
-Emission: BG Fast -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: BG Fast -> Atmosphere,Emission: Total Rh,1.0000
-Emission: BG Fast -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: BG Fast -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: BG Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: BG Fast -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: BG Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: BG Fast -> Atmosphere,Q10 Slow Flows,1.0000
-Emission: BG Slow -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: BG Slow -> Atmosphere,Emission: Total Rh,1.0000
-Emission: BG Slow -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: BG Slow -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: BG Slow -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: BG Slow -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: BG Slow -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: BG Very Fast -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: BG Very Fast -> Atmosphere,Emission: Total Rh,1.0000
-Emission: BG Very Fast -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: BG Very Fast -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: BG Very Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: BG Very Fast -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: BG Very Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: BG Very Fast -> Atmosphere,Q10 Slow Flows,1.0000
-Emission: Snag Branch -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: Snag Branch -> Atmosphere,Emission: Total Rh,1.0000
-Emission: Snag Branch -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: Snag Branch -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: Snag Branch -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: Snag Branch -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: Snag Branch -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: Snag Branch -> Atmosphere,Q10 Slow Flows,1.0000
-Emission: Snag Stem -> Atmosphere,Emission: Total (CO2e),3.6700
-Emission: Snag Stem -> Atmosphere,Emission: Total Rh,1.0000
-Emission: Snag Stem -> Atmosphere,Emission: Total Rh (CO2e),3.6700
-Emission: Snag Stem -> Atmosphere,Net Biome Productivity,-1.0000
-Emission: Snag Stem -> Atmosphere,Net Biome Productivity (CO2e),-3.6700
-Emission: Snag Stem -> Atmosphere,Net Ecosystem Productivity,-1.0000
-Emission: Snag Stem -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.6700
-Emission: Snag Stem -> Atmosphere,Q10 Slow Flows,1.0000
-LULC: Emission DOM CH4,Emission: Total (CO2e),33.5000
-LULC: Emission DOM CH4,LULC: Emission,1.0000
-LULC: Emission DOM CH4,LULC: Emission (CO2e),33.5000
-LULC: Emission DOM CH4,LULC: Emission CH4,1.0000
-LULC: Emission DOM CH4,LULC: Emission CH4 (CO2e),33.5000
-LULC: Emission DOM CH4,LULC: Emission DOM,1.0000
-LULC: Emission DOM CH4,LULC: Emission DOM (CO2e),33.5000
-LULC: Emission DOM CH4,Net Biome Productivity,-1.0000
-LULC: Emission DOM CH4,Net Biome Productivity (CO2e),-33.5000
-LULC: Emission DOM CO,Emission: Total (CO2e),4.6600
-LULC: Emission DOM CO,LULC: Emission,1.0000
-LULC: Emission DOM CO,LULC: Emission (CO2e),4.6600
-LULC: Emission DOM CO,LULC: Emission CO,1.0000
-LULC: Emission DOM CO,LULC: Emission CO (CO2e),4.6600
-LULC: Emission DOM CO,LULC: Emission DOM,1.0000
-LULC: Emission DOM CO,LULC: Emission DOM (CO2e),4.6600
-LULC: Emission DOM CO,Net Biome Productivity,-1.0000
-LULC: Emission DOM CO,Net Biome Productivity (CO2e),-4.6600
-LULC: Emission DOM CO2,Emission: Total (CO2e),3.6700
-LULC: Emission DOM CO2,LULC: Emission,1.0000
-LULC: Emission DOM CO2,LULC: Emission (CO2e),3.6700
-LULC: Emission DOM CO2,LULC: Emission CO2,1.0000
-LULC: Emission DOM CO2,LULC: Emission CO2 (CO2e),3.6700
-LULC: Emission DOM CO2,LULC: Emission DOM,1.0000
-LULC: Emission DOM CO2,LULC: Emission DOM (CO2e),3.6700
-LULC: Emission DOM CO2,Net Biome Productivity,-1.0000
-LULC: Emission DOM CO2,Net Biome Productivity (CO2e),-3.6700
-LULC: Emission Live CH4,Emission: Total (CO2e),33.5000
-LULC: Emission Live CH4,LULC: Emission,1.0000
-LULC: Emission Live CH4,LULC: Emission (CO2e),33.5000
-LULC: Emission Live CH4,LULC: Emission CH4,1.0000
-LULC: Emission Live CH4,LULC: Emission CH4 (CO2e),33.5000
-LULC: Emission Live CH4,LULC: Emission Live,1.0000
-LULC: Emission Live CH4,LULC: Emission Live (CO2e),33.5000
-LULC: Emission Live CH4,Net Biome Productivity,-1.0000
-LULC: Emission Live CH4,Net Biome Productivity (CO2e),-33.5000
-LULC: Emission Live CO,Emission: Total (CO2e),4.6600
-LULC: Emission Live CO,LULC: Emission,1.0000
-LULC: Emission Live CO,LULC: Emission (CO2e),4.6600
-LULC: Emission Live CO,LULC: Emission CO,1.0000
-LULC: Emission Live CO,LULC: Emission CO (CO2e),4.6600
-LULC: Emission Live CO,LULC: Emission Live,1.0000
-LULC: Emission Live CO,LULC: Emission Live (CO2e),4.6600
-LULC: Emission Live CO,Net Biome Productivity,-1.0000
-LULC: Emission Live CO,Net Biome Productivity (CO2e),-4.6600
-LULC: Emission Live CO2,Emission: Total (CO2e),3.6700
-LULC: Emission Live CO2,LULC: Emission,1.0000
-LULC: Emission Live CO2,LULC: Emission (CO2e),3.6700
-LULC: Emission Live CO2,LULC: Emission CO2,1.0000
-LULC: Emission Live CO2,LULC: Emission CO2 (CO2e),3.6700
-LULC: Emission Live CO2,LULC: Emission Live,1.0000
-LULC: Emission Live CO2,LULC: Emission Live (CO2e),3.6700
-LULC: Emission Live CO2,Net Biome Productivity,-1.0000
-LULC: Emission Live CO2,Net Biome Productivity (CO2e),-3.6700
-LULC: Harvest DOM,LULC: Harvest,1.0000
-LULC: Harvest DOM,Net Biome Productivity,-1.0000
-LULC: Harvest DOM,Net Biome Productivity (CO2e),-3.6700
-LULC: Harvest Live,LULC: Harvest,1.0000
-LULC: Harvest Live,Net Biome Productivity,-1.0000
-LULC: Harvest Live,Net Biome Productivity (CO2e),-3.6700
-LULC: Mortality Live,LULC: Mortality,1.0000
-LULC: Transfer DOM,LULC: Transfer,1.0000
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Biome Productivity,1.0000
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Biome Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity,1.0000
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Growth Forest: Total,1.0000
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Growth: Total,1.0000
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Primary Productivity,1.0000
-Net Growth Forest: Atmosphere -> Coarse Roots,Net Primary Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Fine Roots,Net Biome Productivity,1.0000
-Net Growth Forest: Atmosphere -> Fine Roots,Net Biome Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity,1.0000
-Net Growth Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Fine Roots,Net Growth Forest: Total,1.0000
-Net Growth Forest: Atmosphere -> Fine Roots,Net Growth: Total,1.0000
-Net Growth Forest: Atmosphere -> Fine Roots,Net Primary Productivity,1.0000
-Net Growth Forest: Atmosphere -> Fine Roots,Net Primary Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Foliage,Net Biome Productivity,1.0000
-Net Growth Forest: Atmosphere -> Foliage,Net Biome Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Foliage,Net Ecosystem Productivity,1.0000
-Net Growth Forest: Atmosphere -> Foliage,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Foliage,Net Growth Forest: Total,1.0000
-Net Growth Forest: Atmosphere -> Foliage,Net Growth: Total,1.0000
-Net Growth Forest: Atmosphere -> Foliage,Net Primary Productivity,1.0000
-Net Growth Forest: Atmosphere -> Foliage,Net Primary Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Merchantable,Net Biome Productivity,1.0000
-Net Growth Forest: Atmosphere -> Merchantable,Net Biome Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity,1.0000
-Net Growth Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Merchantable,Net Growth Forest: Total,1.0000
-Net Growth Forest: Atmosphere -> Merchantable,Net Growth: Total,1.0000
-Net Growth Forest: Atmosphere -> Merchantable,Net Primary Productivity,1.0000
-Net Growth Forest: Atmosphere -> Merchantable,Net Primary Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Other Wood,Net Biome Productivity,1.0000
-Net Growth Forest: Atmosphere -> Other Wood,Net Biome Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity,1.0000
-Net Growth Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Forest: Atmosphere -> Other Wood,Net Growth Forest: Total,1.0000
-Net Growth Forest: Atmosphere -> Other Wood,Net Growth: Total,1.0000
-Net Growth Forest: Atmosphere -> Other Wood,Net Primary Productivity,1.0000
-Net Growth Forest: Atmosphere -> Other Wood,Net Primary Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Biome Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Biome Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Growth Non Forest: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Growth: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Primary Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Primary Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Biome Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Biome Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Growth Non Forest: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Growth: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Primary Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Fine Roots,Net Primary Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Foliage,Net Biome Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Foliage,Net Biome Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Foliage,Net Ecosystem Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Foliage,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Foliage,Net Growth Non Forest: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Foliage,Net Growth: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Foliage,Net Primary Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Foliage,Net Primary Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Biome Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Biome Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Growth Non Forest: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Growth: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Primary Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Merchantable,Net Primary Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Biome Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Biome Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity (CO2e),3.6700
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Growth Non Forest: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Growth: Total,1.0000
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Primary Productivity,1.0000
-Net Growth Non Forest: Atmosphere -> Other Wood,Net Primary Productivity (CO2e),3.6700
-Transfer: AG Slow -> BG Slow,Q10 Fast Flows,1.0000
-Transfer: AG Slow -> BG Slow,Transfer: Total,1.0000
-Transfer: Snag Branch -> AG Fast,Q10 Slow Flows,1.0000
-Transfer: Snag Branch -> AG Fast,Transfer: Total,1.0000
-Transfer: Snag Stem -> AG Medium,Q10 Slow Flows,1.0000
-Transfer: Snag Stem -> AG Medium,Transfer: Total,1.0000
+Decay: AG Very Fast -> BG Slow,AG Very Fast ->,1
+Emission: AG Very Fast -> Atmosphere,AG Very Fast ->,1
+Lateral Transport: AG Very Fast -> Aquatic,AG Very Fast ->,1
+Emission: BG Slow -> Atmosphere,BG Slow ->,1
+Lateral Transport: BG Slow -> Aquatic,BG Slow ->,1
+Stabilization: BG Slow -> Deep Soil,BG Slow ->,1
+Decay: BG Very Fast -> BG Slow,BG Very Fast ->,1
+Emission: BG Very Fast -> Atmosphere,BG Very Fast ->,1
+Lateral Transport: BG Very Fast -> Aquatic,BG Very Fast ->,1
+Biomass Turnover: Coarse Roots -> AG Fast,Biomass Turnover: Total,1
+Biomass Turnover: Coarse Roots -> BG Fast,Biomass Turnover: Total,1
+Biomass Turnover: Fine Roots -> AG Very Fast,Biomass Turnover: Total,1
+Biomass Turnover: Fine Roots -> BG Very Fast,Biomass Turnover: Total,1
+Biomass Turnover: Foliage -> AG Very Fast,Biomass Turnover: Total,1
+Biomass Turnover: Merchantable -> Snag Stems,Biomass Turnover: Total,1
+Biomass Turnover: Other Wood -> AG Fast,Biomass Turnover: Total,1
+Biomass Turnover: Other Wood -> Snag Branches,Biomass Turnover: Total,1
+Decay: AG Fast -> AG Slow,Decay: Total,1
+Decay: AG Medium -> AG Slow,Decay: Total,1
+Decay: AG Very Fast -> AG Slow,Decay: Total,1
+Decay: BG Fast -> BG Slow,Decay: Total,1
+Decay: BG Very Fast -> BG Slow,Decay: Total,1
+Decay: Snag Branch -> AG Slow,Decay: Total,1
+Decay: Snag Stem -> AG Slow,Decay: Total,1
+Emission: AG Fast -> Atmosphere,Emission: Total,1
+Emission: AG Medium -> Atmosphere,Emission: Total,1
+Emission: AG Slow -> Atmosphere,Emission: Total,1
+Emission: AG Very Fast -> Atmosphere,Emission: Total,1
+Emission: BG Fast -> Atmosphere,Emission: Total,1
+Emission: BG Slow -> Atmosphere,Emission: Total,1
+Emission: BG Very Fast -> Atmosphere,Emission: Total,1
+Emission: Snag Branch -> Atmosphere,Emission: Total,1
+Emission: Snag Stem -> Atmosphere,Emission: Total,1
+LULC: Emission DOM CH4,Emission: Total,1
+LULC: Emission DOM CO,Emission: Total,1
+LULC: Emission DOM CO2,Emission: Total,1
+LULC: Emission Live CH4,Emission: Total,1
+LULC: Emission Live CO,Emission: Total,1
+LULC: Emission Live CO2,Emission: Total,1
+Emission: AG Fast -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: AG Medium -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: AG Slow -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: AG Very Fast -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: BG Fast -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: BG Slow -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: BG Very Fast -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: Snag Branch -> Atmosphere,Emission: Total (CO2e),3.67
+Emission: Snag Stem -> Atmosphere,Emission: Total (CO2e),3.67
+LULC: Emission DOM CH4,Emission: Total (CO2e),33.5
+LULC: Emission DOM CO,Emission: Total (CO2e),4.66
+LULC: Emission DOM CO2,Emission: Total (CO2e),3.67
+LULC: Emission Live CH4,Emission: Total (CO2e),33.5
+LULC: Emission Live CO,Emission: Total (CO2e),4.66
+LULC: Emission Live CO2,Emission: Total (CO2e),3.67
+Emission: AG Fast -> Atmosphere,Emission: Total Rh,1
+Emission: AG Medium -> Atmosphere,Emission: Total Rh,1
+Emission: AG Slow -> Atmosphere,Emission: Total Rh,1
+Emission: AG Very Fast -> Atmosphere,Emission: Total Rh,1
+Emission: BG Fast -> Atmosphere,Emission: Total Rh,1
+Emission: BG Slow -> Atmosphere,Emission: Total Rh,1
+Emission: BG Very Fast -> Atmosphere,Emission: Total Rh,1
+Emission: Snag Branch -> Atmosphere,Emission: Total Rh,1
+Emission: Snag Stem -> Atmosphere,Emission: Total Rh,1
+Emission: AG Fast -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: AG Medium -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: AG Slow -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: AG Very Fast -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: BG Fast -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: BG Slow -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: BG Very Fast -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: Snag Branch -> Atmosphere,Emission: Total Rh (CO2e),3.67
+Emission: Snag Stem -> Atmosphere,Emission: Total Rh (CO2e),3.67
+LULC: Emission DOM CH4,LULC: Emission,1
+LULC: Emission DOM CO,LULC: Emission,1
+LULC: Emission DOM CO2,LULC: Emission,1
+LULC: Emission Live CH4,LULC: Emission,1
+LULC: Emission Live CO,LULC: Emission,1
+LULC: Emission Live CO2,LULC: Emission,1
+LULC: Emission DOM CH4,LULC: Emission (CO2e),33.5
+LULC: Emission DOM CO,LULC: Emission (CO2e),4.66
+LULC: Emission DOM CO2,LULC: Emission (CO2e),3.67
+LULC: Emission Live CH4,LULC: Emission (CO2e),33.5
+LULC: Emission Live CO,LULC: Emission (CO2e),4.66
+LULC: Emission Live CO2,LULC: Emission (CO2e),3.67
+LULC: Emission DOM CH4,LULC: Emission CH4,1
+LULC: Emission Live CH4,LULC: Emission CH4,1
+LULC: Emission DOM CH4,LULC: Emission CH4 (CO2e),33.5
+LULC: Emission Live CH4,LULC: Emission CH4 (CO2e),33.5
+LULC: Emission DOM CO,LULC: Emission CO,1
+LULC: Emission Live CO,LULC: Emission CO,1
+LULC: Emission DOM CO,LULC: Emission CO (CO2e),4.66
+LULC: Emission Live CO,LULC: Emission CO (CO2e),4.66
+LULC: Emission DOM CO2,LULC: Emission CO2,1
+LULC: Emission Live CO2,LULC: Emission CO2,1
+LULC: Emission DOM CO2,LULC: Emission CO2 (CO2e),3.67
+LULC: Emission Live CO2,LULC: Emission CO2 (CO2e),3.67
+LULC: Emission DOM CH4,LULC: Emission DOM,1
+LULC: Emission DOM CO,LULC: Emission DOM,1
+LULC: Emission DOM CO2,LULC: Emission DOM,1
+LULC: Emission DOM CH4,LULC: Emission DOM (CO2e),33.5
+LULC: Emission DOM CO,LULC: Emission DOM (CO2e),4.66
+LULC: Emission DOM CO2,LULC: Emission DOM (CO2e),3.67
+LULC: Emission Live CH4,LULC: Emission Live,1
+LULC: Emission Live CO,LULC: Emission Live,1
+LULC: Emission Live CO2,LULC: Emission Live,1
+LULC: Emission Live CH4,LULC: Emission Live (CO2e),33.5
+LULC: Emission Live CO,LULC: Emission Live (CO2e),4.66
+LULC: Emission Live CO2,LULC: Emission Live (CO2e),3.67
+LULC: Harvest DOM,LULC: Harvest,1
+LULC: Harvest Live,LULC: Harvest,1
+LULC: Mortality Live,LULC: Mortality,1
+LULC: Transfer DOM,LULC: Transfer,1
+Emission: AG Fast -> Atmosphere,Net Biome Productivity,-1
+Emission: AG Medium -> Atmosphere,Net Biome Productivity,-1
+Emission: AG Slow -> Atmosphere,Net Biome Productivity,-1
+Emission: AG Very Fast -> Atmosphere,Net Biome Productivity,-1
+Emission: BG Fast -> Atmosphere,Net Biome Productivity,-1
+Emission: BG Slow -> Atmosphere,Net Biome Productivity,-1
+Emission: BG Very Fast -> Atmosphere,Net Biome Productivity,-1
+Emission: Snag Branch -> Atmosphere,Net Biome Productivity,-1
+Emission: Snag Stem -> Atmosphere,Net Biome Productivity,-1
+LULC: Emission DOM CH4,Net Biome Productivity,-1
+LULC: Emission DOM CO,Net Biome Productivity,-1
+LULC: Emission DOM CO2,Net Biome Productivity,-1
+LULC: Emission Live CH4,Net Biome Productivity,-1
+LULC: Emission Live CO,Net Biome Productivity,-1
+LULC: Emission Live CO2,Net Biome Productivity,-1
+LULC: Harvest DOM,Net Biome Productivity,-1
+LULC: Harvest Live,Net Biome Productivity,-1
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Biome Productivity,1
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Biome Productivity,1
+Net Growth Non Forest: Atmosphere -> Foliage,Net Biome Productivity,1
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Biome Productivity,1
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Biome Productivity,1
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Biome Productivity,1
+Net Growth Forest: Atmosphere -> Fine Roots,Net Biome Productivity,1
+Net Growth Forest: Atmosphere -> Foliage,Net Biome Productivity,1
+Net Growth Forest: Atmosphere -> Merchantable,Net Biome Productivity,1
+Net Growth Forest: Atmosphere -> Other Wood,Net Biome Productivity,1
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Biome Productivity,1
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Biome Productivity,1
+Lateral Transport: AG Very Fast -> Aquatic,Net Biome Productivity,-1
+Lateral Transport: BG Slow -> Aquatic,Net Biome Productivity,-1
+Lateral Transport: BG Very Fast -> Aquatic,Net Biome Productivity,-1
+Emission: AG Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: AG Medium -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: AG Slow -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: AG Very Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: BG Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: BG Slow -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: BG Very Fast -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: Snag Branch -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+Emission: Snag Stem -> Atmosphere,Net Biome Productivity (CO2e),-3.67
+LULC: Emission DOM CH4,Net Biome Productivity (CO2e),-33.5
+LULC: Emission DOM CO,Net Biome Productivity (CO2e),-4.66
+LULC: Emission DOM CO2,Net Biome Productivity (CO2e),-3.67
+LULC: Emission Live CH4,Net Biome Productivity (CO2e),-33.5
+LULC: Emission Live CO,Net Biome Productivity (CO2e),-4.66
+LULC: Emission Live CO2,Net Biome Productivity (CO2e),-3.67
+LULC: Harvest DOM,Net Biome Productivity (CO2e),-3.67
+LULC: Harvest Live,Net Biome Productivity (CO2e),-3.67
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Biome Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Biome Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Foliage,Net Biome Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Biome Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Biome Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Biome Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Fine Roots,Net Biome Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Foliage,Net Biome Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Merchantable,Net Biome Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Other Wood,Net Biome Productivity (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Biome Productivity (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Biome Productivity (CO2e),3.67
+Lateral Transport: AG Very Fast -> Aquatic,Net Biome Productivity (CO2e),-3.67
+Lateral Transport: BG Slow -> Aquatic,Net Biome Productivity (CO2e),-3.67
+Lateral Transport: BG Very Fast -> Aquatic,Net Biome Productivity (CO2e),-3.67
+Emission: AG Fast -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: AG Medium -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: AG Slow -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: AG Very Fast -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: BG Fast -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: BG Slow -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: BG Very Fast -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: Snag Branch -> Atmosphere,Net Ecosystem Productivity,-1
+Emission: Snag Stem -> Atmosphere,Net Ecosystem Productivity,-1
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity,1
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity,1
+Net Growth Non Forest: Atmosphere -> Foliage,Net Ecosystem Productivity,1
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity,1
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity,1
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity,1
+Net Growth Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity,1
+Net Growth Forest: Atmosphere -> Foliage,Net Ecosystem Productivity,1
+Net Growth Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity,1
+Net Growth Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity,1
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Ecosystem Productivity,1
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Ecosystem Productivity,1
+Lateral Transport: AG Very Fast -> Aquatic,Net Ecosystem Productivity,-1
+Lateral Transport: BG Slow -> Aquatic,Net Ecosystem Productivity,-1
+Lateral Transport: BG Very Fast -> Aquatic,Net Ecosystem Productivity,-1
+Emission: AG Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: AG Medium -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: AG Slow -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: AG Very Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: BG Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: BG Slow -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: BG Very Fast -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: Snag Branch -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Emission: Snag Stem -> Atmosphere,Net Ecosystem Productivity (CO2e),-3.67
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Foliage,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Fine Roots,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Foliage,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Merchantable,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Other Wood,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Ecosystem Productivity (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Ecosystem Productivity (CO2e),3.67
+Lateral Transport: AG Very Fast -> Aquatic,Net Ecosystem Productivity (CO2e),-3.67
+Lateral Transport: BG Slow -> Aquatic,Net Ecosystem Productivity (CO2e),-3.67
+Lateral Transport: BG Very Fast -> Aquatic,Net Ecosystem Productivity (CO2e),-3.67
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Growth Non Forest: Total,1
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Growth Non Forest: Total,1
+Net Growth Non Forest: Atmosphere -> Foliage,Net Growth Non Forest: Total,1
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Growth Non Forest: Total,1
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Growth Non Forest: Total,1
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Growth Forest: Total,1
+Net Growth Forest: Atmosphere -> Fine Roots,Net Growth Forest: Total,1
+Net Growth Forest: Atmosphere -> Foliage,Net Growth Forest: Total,1
+Net Growth Forest: Atmosphere -> Merchantable,Net Growth Forest: Total,1
+Net Growth Forest: Atmosphere -> Other Wood,Net Growth Forest: Total,1
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Growth: Total,1
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Growth: Total,1
+Net Growth Non Forest: Atmosphere -> Foliage,Net Growth: Total,1
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Growth: Total,1
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Growth: Total,1
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Growth: Total,1
+Net Growth Forest: Atmosphere -> Fine Roots,Net Growth: Total,1
+Net Growth Forest: Atmosphere -> Foliage,Net Growth: Total,1
+Net Growth Forest: Atmosphere -> Merchantable,Net Growth: Total,1
+Net Growth Forest: Atmosphere -> Other Wood,Net Growth: Total,1
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Growth: Total,1
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Growth: Total,1
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Growth: Total (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Growth: Total (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Foliage,Net Growth: Total (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Growth: Total (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Growth: Total (CO2e),3.67
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Growth: Total (CO2e),3.67
+Net Growth Forest: Atmosphere -> Fine Roots,Net Growth: Total (CO2e),3.67
+Net Growth Forest: Atmosphere -> Foliage,Net Growth: Total (CO2e),3.67
+Net Growth Forest: Atmosphere -> Merchantable,Net Growth: Total (CO2e),3.67
+Net Growth Forest: Atmosphere -> Other Wood,Net Growth: Total (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Growth: Total (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Growth: Total (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Primary Productivity,1
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Primary Productivity,1
+Net Growth Non Forest: Atmosphere -> Foliage,Net Primary Productivity,1
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Primary Productivity,1
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Primary Productivity,1
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Primary Productivity,1
+Net Growth Forest: Atmosphere -> Fine Roots,Net Primary Productivity,1
+Net Growth Forest: Atmosphere -> Foliage,Net Primary Productivity,1
+Net Growth Forest: Atmosphere -> Merchantable,Net Primary Productivity,1
+Net Growth Forest: Atmosphere -> Other Wood,Net Primary Productivity,1
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Primary Productivity,1
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Primary Productivity,1
+Net Growth Non Forest: Atmosphere -> Coarse Roots,Net Primary Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Fine Roots,Net Primary Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Foliage,Net Primary Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Merchantable,Net Primary Productivity (CO2e),3.67
+Net Growth Non Forest: Atmosphere -> Other Wood,Net Primary Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Coarse Roots,Net Primary Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Fine Roots,Net Primary Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Foliage,Net Primary Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Merchantable,Net Primary Productivity (CO2e),3.67
+Net Growth Forest: Atmosphere -> Other Wood,Net Primary Productivity (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Primary Productivity (CO2e),3.67
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Primary Productivity (CO2e),3.67
+Decay: AG Very Fast -> AG Slow,Q10 Fast Flows,1
+Emission: AG Slow -> Atmosphere,Q10 Fast Flows,1
+Emission: AG Very Fast -> Atmosphere,Q10 Fast Flows,1
+Transfer: AG Slow -> BG Slow,Q10 Fast Flows,1
+Decay: AG Fast -> AG Slow,Q10 Slow Flows,1
+Decay: AG Medium -> AG Slow,Q10 Slow Flows,1
+Decay: BG Fast -> BG Slow,Q10 Slow Flows,1
+Decay: BG Very Fast -> BG Slow,Q10 Slow Flows,1
+Decay: Snag Branch -> AG Slow,Q10 Slow Flows,1
+Decay: Snag Stem -> AG Slow,Q10 Slow Flows,1
+Emission: AG Fast -> Atmosphere,Q10 Slow Flows,1
+Emission: AG Medium -> Atmosphere,Q10 Slow Flows,1
+Emission: BG Fast -> Atmosphere,Q10 Slow Flows,1
+Emission: BG Very Fast -> Atmosphere,Q10 Slow Flows,1
+Emission: Snag Branch -> Atmosphere,Q10 Slow Flows,1
+Emission: Snag Stem -> Atmosphere,Q10 Slow Flows,1
+Transfer: Snag Branch -> AG Fast,Q10 Slow Flows,1
+Transfer: Snag Stem -> AG Medium,Q10 Slow Flows,1
+Transfer: AG Slow -> BG Slow,Transfer: Total,1
+Transfer: Snag Branch -> AG Fast,Transfer: Total,1
+Transfer: Snag Stem -> AG Medium,Transfer: Total,1
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots,Net Growth Wetland: Total,1
+Net Growth Wetland Emergent: Atmosphere -> Foliage,Net Growth Wetland: Total,1
+Lateral Transport: AG Very Fast -> Aquatic,Lateral Flux,1
+Lateral Transport: BG Slow -> Aquatic,Lateral Flux,1
+Lateral Transport: BG Very Fast -> Aquatic,Lateral Flux,1
+Lateral Transport: AG Very Fast -> Aquatic,Lateral Flux (CO2e),3.67
+Lateral Transport: BG Slow -> Aquatic,Lateral Flux (CO2e),3.67
+Lateral Transport: BG Very Fast -> Aquatic,Lateral Flux (CO2e),3.67

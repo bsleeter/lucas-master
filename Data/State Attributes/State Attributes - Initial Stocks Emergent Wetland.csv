@@ -1,0 +1,29 @@
+StateClassID,StateAttributeTypeID,AgeMin,AgeMax,Value
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Aboveground Fast,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Aboveground Fast,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Aboveground Medium,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Aboveground Medium,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Aboveground Slow,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Aboveground Slow,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Belowground Fast,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Belowground Fast,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Coarse Roots,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Coarse Roots,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Merchantable,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Merchantable,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Other Wood,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Other Wood,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Snag Branch,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Snag Branch,,,0
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Snag Stem,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Snag Stem,,,0
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Foliage,,,1.564849
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Foliage,,,0.755572
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Fine Roots,,,4.458236
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Fine Roots,,,4.141578
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Aboveground Very Fast,,,4.053558
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Aboveground Very Fast,,,3.32114
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Belowground Very Fast,,,19.691171
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Belowground Very Fast,,,14.058475
+Wetland: Estuarine Emergent,Carbon Initial Conditions: Belowground Slow,,,464.259566
+Wetland: Palustrine Emergent,Carbon Initial Conditions: Belowground Slow,,,609.112728

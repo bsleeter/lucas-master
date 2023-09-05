@@ -7,15 +7,14 @@ Biomass Turnover: Foliage -> AG Very Fast [Type],Yes,No,No
 Biomass Turnover: Merchantable -> Snag Stems [Type],Yes,No,No
 Biomass Turnover: Other Wood -> AG Fast [Type],Yes,No,No
 Biomass Turnover: Other Wood -> Snag Branches [Type],Yes,No,No
-Biomass Turnover: Total,Yes,No,No
 Decay: AG Fast -> AG Slow [Type],Yes,No,No
 Decay: AG Medium -> AG Slow [Type],Yes,No,No
 Decay: AG Very Fast -> AG Slow [Type],Yes,No,No
+Decay: AG Very Fast -> BG Slow [Type],Yes,No,No
 Decay: BG Fast -> BG Slow [Type],Yes,No,No
 Decay: BG Very Fast -> BG Slow [Type],Yes,No,No
 Decay: Snag Branch -> AG Slow [Type],Yes,No,No
 Decay: Snag Stem -> AG Slow [Type],Yes,No,No
-Decay: Total,Yes,No,No
 Emission: AG Fast -> Atmosphere [Type],Yes,No,No
 Emission: AG Medium -> Atmosphere [Type],Yes,No,No
 Emission: AG Slow -> Atmosphere [Type],Yes,No,No
@@ -25,6 +24,41 @@ Emission: BG Slow -> Atmosphere [Type],Yes,No,No
 Emission: BG Very Fast -> Atmosphere [Type],Yes,No,No
 Emission: Snag Branch -> Atmosphere [Type],Yes,No,No
 Emission: Snag Stem -> Atmosphere [Type],Yes,No,No
+Lateral Transport: AG Very Fast -> Aquatic [Type],Yes,No,No
+Lateral Transport: BG Slow -> Aquatic [Type],Yes,No,No
+Lateral Transport: BG Very Fast -> Aquatic [Type],Yes,No,No
+LULC: Emission DOM CH4 [Type],Yes,No,No
+LULC: Emission DOM CO [Type],Yes,No,No
+LULC: Emission DOM CO2 [Type],Yes,No,No
+LULC: Emission Live CH4 [Type],Yes,No,No
+LULC: Emission Live CO [Type],Yes,No,No
+LULC: Emission Live CO2 [Type],Yes,No,No
+LULC: Harvest DOM [Type],Yes,No,No
+LULC: Harvest Live [Type],Yes,No,No
+LULC: Mortality Live [Type],Yes,No,No
+LULC: Transfer DOM [Type],Yes,No,No
+Net Growth Forest: Atmosphere -> Coarse Roots [Type],Yes,No,No
+Net Growth Forest: Atmosphere -> Fine Roots [Type],Yes,No,No
+Net Growth Forest: Atmosphere -> Foliage [Type],Yes,No,No
+Net Growth Forest: Atmosphere -> Merchantable [Type],Yes,No,No
+Net Growth Forest: Atmosphere -> Other Wood [Type],Yes,No,No
+Net Growth Non Forest: Atmosphere -> Coarse Roots [Type],Yes,No,No
+Net Growth Non Forest: Atmosphere -> Fine Roots [Type],Yes,No,No
+Net Growth Non Forest: Atmosphere -> Foliage [Type],Yes,No,No
+Net Growth Non Forest: Atmosphere -> Merchantable [Type],Yes,No,No
+Net Growth Non Forest: Atmosphere -> Other Wood [Type],Yes,No,No
+Net Growth Wetland Emergent: Atmosphere -> Fine Roots [Type],Yes,No,No
+Net Growth Wetland Emergent: Atmosphere -> Foliage [Type],Yes,No,No
+Stabilization: BG Slow -> Deep Soil [Type],Yes,No,No
+Transfer: AG Slow -> BG Slow [Type],Yes,No,No
+Transfer: Snag Branch -> AG Fast [Type],Yes,No,No
+Transfer: Snag Stem -> AG Medium [Type],Yes,No,No
+AG Very Fast ->,Yes,No,No
+BG Slow ->,Yes,No,No
+BG Very Fast ->,Yes,No,No
+Biomass Turnover: Total,Yes,No,No
+Decay: Total,Yes,No,No
+Emission: Total,Yes,Yes,Yes
 Emission: Total (CO2e),Yes,No,No
 Emission: Total Rh,Yes,Yes,Yes
 Emission: Total Rh (CO2e),Yes,No,No
@@ -38,43 +72,24 @@ LULC: Emission CO2,Yes,No,No
 LULC: Emission CO2 (CO2e),Yes,No,No
 LULC: Emission DOM,Yes,No,No
 LULC: Emission DOM (CO2e),Yes,No,No
-LULC: Emission DOM CH4 [Type],Yes,No,No
-LULC: Emission DOM CO [Type],Yes,No,No
-LULC: Emission DOM CO2 [Type],Yes,No,No
 LULC: Emission Live,Yes,No,No
 LULC: Emission Live (CO2e),Yes,No,No
-LULC: Emission Live CH4 [Type],Yes,No,No
-LULC: Emission Live CO [Type],Yes,No,No
-LULC: Emission Live CO2 [Type],Yes,No,No
 LULC: Harvest,Yes,Yes,Yes
-LULC: Harvest DOM [Type],Yes,No,No
-LULC: Harvest Live [Type],Yes,No,No
 LULC: Mortality,Yes,Yes,Yes
-LULC: Mortality Live [Type],Yes,No,No
 LULC: Transfer,Yes,No,No
-LULC: Transfer DOM [Type],Yes,No,No
 Net Biome Productivity,Yes,Yes,Yes
 Net Biome Productivity (CO2e),Yes,No,No
 Net Ecosystem Productivity,Yes,Yes,Yes
 Net Ecosystem Productivity (CO2e),Yes,No,No
-Net Growth Forest: Atmosphere -> Coarse Roots [Type],Yes,No,No
-Net Growth Forest: Atmosphere -> Fine Roots [Type],Yes,No,No
-Net Growth Forest: Atmosphere -> Foliage [Type],Yes,No,No
-Net Growth Forest: Atmosphere -> Merchantable [Type],Yes,No,No
-Net Growth Forest: Atmosphere -> Other Wood [Type],Yes,No,No
 Net Growth Forest: Total,Yes,No,No
-Net Growth Non Forest: Atmosphere -> Coarse Roots [Type],Yes,No,No
-Net Growth Non Forest: Atmosphere -> Fine Roots [Type],Yes,No,No
-Net Growth Non Forest: Atmosphere -> Foliage [Type],Yes,No,No
-Net Growth Non Forest: Atmosphere -> Merchantable [Type],Yes,No,No
-Net Growth Non Forest: Atmosphere -> Other Wood [Type],Yes,No,No
 Net Growth Non Forest: Total,Yes,No,No
-Net Growth: Total,Yes,No,No
+Net Growth Wetland: Total,Yes,No,No
+Net Growth: Total,Yes,Yes,Yes
+Net Growth: Total (CO2e),Yes,No,No
 Net Primary Productivity,Yes,Yes,Yes
 Net Primary Productivity (CO2e),Yes,No,No
 Q10 Fast Flows,Yes,No,No
 Q10 Slow Flows,Yes,No,No
-Transfer: AG Slow -> BG Slow [Type],Yes,No,No
-Transfer: Snag Branch -> AG Fast [Type],Yes,No,No
-Transfer: Snag Stem -> AG Medium [Type],Yes,No,No
 Transfer: Total,Yes,No,No
+Lateral Flux,Yes,No,No
+Lateral Flux (CO2e),Yes,No,No
